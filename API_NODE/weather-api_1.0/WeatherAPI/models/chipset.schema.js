@@ -8,6 +8,6 @@ let ChipsetSchema = new Schema({
   links: [{ type: String}],
   // caps are what kind of measure/functionnality the chipset is able to
   caps: [ {type: String, required: true} ],
-}
+})
 
 module.exports = ChipsetSchema;

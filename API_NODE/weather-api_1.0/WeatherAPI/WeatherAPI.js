@@ -69,13 +69,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // define routes
+/*
 app.use(function(req, res, next) {
   res.header(
     "Access-Control-Allow-Headers",
     "x-session-id, Origin, Content-Type, Accept"
   );
   next();
-});
+});*/
 
 /* serve production version of gnose app. */
 //app.use(express.static(path.join(__dirname, '../../vuejs/gnose/dist')));
