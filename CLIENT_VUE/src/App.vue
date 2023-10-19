@@ -4,17 +4,17 @@
       <div class="div-3">
         <div class="div-4">
           <div class="div-5">
-            <div class="div-6"></div>
-            <div class="div-7">Home</div>
-            <div class="div-8">Weather</div>
-            <div class="div-9">About</div>
+            <div class="div-6"><img src="./assets/logo_sae.png" loading="lazy"/></div>
+            <div class="div-7" @click="scrollToSection('home-section')">Home</div>
+            <div class="div-8" @click="scrollToSection('weather-section')">Weather</div>
+            <div class="div-9" @click="scrollToSection('about-section')">About</div>
           </div>
           <div class="div-10">
             Experience the thrill of real-<br />time weather reporting.
           </div>
         </div>
       </div>
-      <div class="div-11">
+      <div class="div-11" id="home-section">
         <div class="div-12">Weather Insights, Unleashed</div>
         <div class="div-13">
           Get ready for the ultimate weather application that’ll blow your
@@ -35,7 +35,7 @@
           </div>
         </div>
       </div>
-      <div class="div-24">
+      <div class="div-24" id="weather-section">
         <div class="div-25">
           <div class="div-26">
             <div class="div-27">
@@ -109,7 +109,7 @@
           </div>
         </div>
       </div>
-      <div class="div-48">
+      <div class="div-48" id="about-section">
         <div class="div-49">Stay Updated</div>
         <div class="div-50">
           Get the most precise and up-to-date weather predictions. You
@@ -173,7 +173,12 @@
                 © 2023 Live Weather Report. All Rights Reserved.
               </div>
             </div>
-
+          </div>
+          <div class="scroll-to-top" @click="scrollToTop">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path d="M12 3L2 12h6v8h8v-8h6z" />
+            </svg>
+            Scroll to Top
           </div>
         </div>
       </div>
@@ -184,22 +189,47 @@
 <script>
 export default {
   name: "my-component",
+  methods: {
+    scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+      }
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+  },
 };
 </script>
+
 
 <style scoped>
 @import url('./style.css');
 
-/* Cacher la barre de défilement verticale */
-::-webkit-scrollbar {
-  width: 0.5em;
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007BFF;
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+  display: none;
+  /* Le bouton est caché par défaut */
+  align-items: center;
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
+.scroll-to-top svg {
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+  margin-right: 10px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #888;
+.scroll-to-top.show {
+  display: flex;
+  /* Affiche le bouton lorsqu'il est activé */
 }
 </style>
