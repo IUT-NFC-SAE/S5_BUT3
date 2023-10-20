@@ -47,7 +47,7 @@ const corsOptions = {
 
 // setup mongo connection
 const mongoose = require('mongoose');
-let dev_db_url = 'mongodb://localhost/weatherapi';
+let dev_db_url = 'mongodb://127.0.0.1:27017/weatherapi';
 let mongoDB = process.env.MONGODB_URI || dev_db_url;
 //mongoose.set('debug',true);
 mongoose.connect(mongoDB);

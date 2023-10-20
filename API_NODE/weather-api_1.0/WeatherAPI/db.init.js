@@ -49,7 +49,7 @@ async function initModules() {
     if (mod1 === null) {
       mod1 = new Module({
         name: "module 1",
-        shortName: "mod1",
+        shortname: "mod1",
         key: "58ae1d8f-027b-4061-a4c7-b37c3f8ed54e",
         uc: "esp32",
         chipsets: [ lm35._id, bme280._id],
@@ -65,7 +65,7 @@ async function initModules() {
     if (mod2 === null) {
       mod2 = new Module({
         name: "module 2",
-        shortName: "mod2",
+        shortname: "mod2",
         key: "2e46990d-3e85-45f8-82c8-f05eec1a1212",
         uc: "esp8266",
         chipsets: [ bme280._id],

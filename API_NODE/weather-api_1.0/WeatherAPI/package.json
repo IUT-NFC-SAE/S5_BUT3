@@ -25,7 +25,7 @@
     "validator": "^13.6.0"
   },
   "scripts": {
-    "test": "node geseapi"
+    "test": "node WeatherAPI.js"
   },
   "repository": {
     "type": "git",
