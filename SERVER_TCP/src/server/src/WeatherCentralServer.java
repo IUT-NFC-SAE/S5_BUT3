@@ -1,18 +1,16 @@
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.*;
 
 class WeatherCentralServer {
+
+  public static final Dotenv dotenv = Dotenv.configure().directory("../../.env").load();
 
   public static void main(String []args) {
 
     MainServer server = null;
 
-    if (args.length != 1) {
-      System.out.println("usage: WeatherCentralServer port");
-      System.exit(1);
-    }
-
     try {
-      int port = Integer.parseInt(args[0]);
+      int port = Integer.parseInt(dotenv.get("SERVER_TCP_PORT"));
       server = new MainServer(port);
       server.mainLoop();
     }

@@ -1,19 +1,17 @@
+import io.github.cdimascio.dotenv.Dotenv;
 import java.io.*;
 
 class WeatherClient {
+
+  public static final Dotenv dotenv = Dotenv.configure().directory("../../.env").load();
 
   public static void main(String []args) {
 
     MainClient client;
 
-    if (args.length != 2) {
-      System.out.println("usage: java WeatherClient ip_server port");
-      System.exit(1);
-    }
-
     try {
-      String serverAddr = args[0];
-      int port = Integer.parseInt(args[1]);
+      String serverAddr = dotenv.get("SERVER_TCP_IP_ADDR");
+      int port = Integer.parseInt(dotenv.get("SERVER_TCP_PORT"));
       client = new MainClient(serverAddr,port);
       client.mainLoop();
     }
