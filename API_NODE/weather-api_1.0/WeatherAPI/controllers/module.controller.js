@@ -93,7 +93,7 @@ const register = async function (req, res, next) {
       nb++
     }
   }
-  let shortName = "mod"+nb;
+  let shortname = "mod"+nb;
   // generate a unique key
   let key = uuidv4()
   stop = false
@@ -119,7 +119,7 @@ const register = async function (req, res, next) {
 
   let m = {
     name: name,
-    shortName: shortName,
+    shortname: shortname,
     key : key,
     uc: req.body.uc,
     chipsets: chips,
@@ -149,7 +149,7 @@ const register = async function (req, res, next) {
  * @param {Object} req - The request object (provided by express)
  * @param {Object} req.body - The data payload sent with the request
  * @param {string} req.body.name
- * @param {string} req.body.shortName
+ * @param {string} req.body.shortname
  * @param {string} req.body.key
  * @param {string} req.body.uc
  * @param {Array} req.body.chipsets
@@ -180,8 +180,8 @@ const create = async function (req, res, next) {
       answer.set(ModuleErrors.getError(ModuleErrors.ERR_MODULE_KEY_ALREADY_EXISTS))
       return next(answer);
     }
-    if (req.body.shortName) {
-      module = await Module.findOne({shortName:req.body.shortName}).exec();
+    if (req.body.shortname) {
+      module = await Module.findOne({shortname:req.body.shortname}).exec();
       if (module !== null) {
         answer.set(ModuleErrors.getError(ModuleErrors.ERR_MODULE_SHORTNAME_ALREADY_EXISTS))
         return next(answer);
@@ -204,7 +204,7 @@ const create = async function (req, res, next) {
 
   let m = {
     name: req.body.name,
-    shortName: req.body.shortName,
+    shortname: req.body.shortname,
     key : req.body.key,
     uc: req.body.uc,
     chipsets: chips,
