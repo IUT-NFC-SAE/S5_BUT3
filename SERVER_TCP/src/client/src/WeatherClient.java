@@ -16,7 +16,7 @@ class WeatherClient {
       client.mainLoop();
     }
     catch(IOException e) {
-      System.out.println("cannot connect to server : "+e.getMessage());
+      Logger.println("CLIENT_TCP","WeatherClient","cannot connect to server",e.getMessage(), Logger.Color.RED);
       System.exit(1);
     }
   }

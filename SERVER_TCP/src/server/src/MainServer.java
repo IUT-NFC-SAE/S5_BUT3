@@ -24,7 +24,8 @@ class MainServer  {
 
         while(true) {
             sock = conn.accept();
-            System.out.println("new client connected, thread id = "+ idThread);
+            Logger.println("SERVER_TCP","MainServer","new client connected", String.valueOf(idThread), Logger.Color.GREEN);
+
             ThreadServer t = new ThreadServer(idThread++, sock, exchanger);
             t.start();
         }

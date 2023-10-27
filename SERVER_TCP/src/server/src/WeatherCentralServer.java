@@ -15,7 +15,7 @@ class WeatherCentralServer {
       server.mainLoop();
     }
     catch(IOException e) {
-      System.out.println("server down: "+e.getMessage());
+      Logger.println("SERVER_TCP","WeatherCentralServer","server down",e.getMessage(), Logger.Color.RED);
       System.exit(1);
     }
   }

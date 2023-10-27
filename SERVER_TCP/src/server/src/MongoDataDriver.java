@@ -51,7 +51,7 @@ public class MongoDataDriver implements DataDriver {
     private ObjectId getModuleId(String moduleKey) {
         Module module = modules.find(eq("key",moduleKey)).first();
         if (module != null) {
-            System.out.println(module.getKey()+ " -> "+module.getId());
+            System.out.println("[SERVER_TCP:MongoDataDriver] Module: " + module.getKey() + " -> " + module.getId());
 
             return module.getId();
         }
@@ -61,7 +61,7 @@ public class MongoDataDriver implements DataDriver {
     private ObjectId getChipsetId(String chipsetName) {
         Chipset chipset = chipsets.find(eq("name",chipsetName)).first();
         if (chipset != null) {
-            System.out.println(chipset.getName()+ " -> "+chipset.getId());
+            System.out.println("[SERVER_TCP:MongoDataDriver] Chipset: " + chipset.getName() + " -> " + chipset.getId());
 
             return chipset.getId();
         }

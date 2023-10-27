@@ -11,5 +11,6 @@
     <orderEntry type="library" name="Maven: org.mongodb:bson:4.11.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-sync:4.11.0" level="project" />
     <orderEntry type="library" name="Maven: org.mongodb:mongodb-driver-core:4.11.0" level="project" />
+    <orderEntry type="module" module-name="SERVER_TCP" />
   </component>
 </module>

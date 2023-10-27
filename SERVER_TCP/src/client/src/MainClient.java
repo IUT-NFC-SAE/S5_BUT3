@@ -25,7 +25,7 @@ class MainClient  {
 		try {
 			// reading requests from keyboard
 			while (!stop) {
-				System.out.print("WeatherClient [type request]> ");
+				Logger.print("CLIENT_TCP","MainClient","request>",null,null);
 				req = consoleIn.readLine();
 				if (req == null) {
 					stop = true;
@@ -48,7 +48,7 @@ class MainClient  {
 			}
 		}
 		catch(IOException e) {
-			System.out.println("cannot communicated with server. Aborting");
+			Logger.println("CLIENT_TCP","MainClient","cannot communicated with server",e.getMessage(), Logger.Color.RED);
 		}
 	}
 
@@ -57,42 +57,29 @@ class MainClient  {
 		String answer="";
 		StringBuilder req = new StringBuilder("AUTOREGISTER");
 		for(int i=1;i<params.length;i++) req.append(" ").append(params[i]);
-		System.out.println(req);
+		Logger.println("CLIENT_TCP","MainClient:AutoRegister","process request", String.valueOf(req), Logger.Color.CYAN);
 		ps.println(req);
 		answer = br.readLine();
-		if (answer.startsWith("ERR")) {
-			System.out.println("error with request auto-register:"+answer);
-		}
-		System.out.println(answer);
+		Logger.println("CLIENT_TCP","MainClient:AutoRegister",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 	}
 
 	protected void requestStoreMeasure(String type, String value) throws IOException {
 		String moduleKey = "2e46990d-3e85-45f8-82c8-f05eec1a1212";
 		String answer="";
 		String req = "STOREMEASURE "+type+" "+ LocalDateTime.now() +" "+value+" "+moduleKey;
-		System.out.println(req);
+		Logger.println("CLIENT_TCP","MainClient:StoreMeasure","process request",req,Logger.Color.CYAN);
 		ps.println(req);
 		answer = br.readLine();
-		if (answer.startsWith("ERR")) {
-			System.out.println("error with request store measure:"+answer);
-		}
-		else {
-			System.out.println(answer);
-		}
+		Logger.println("CLIENT_TCP","MainClient:StoreMeasure",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 	}
 
 	protected void requestStoreAnalysis(String type, String value) throws IOException {
 		String answer="";
 		String req = "STOREANALYSIS "+type+" "+ LocalDateTime.now() +" "+value;
-		System.out.println(req);
+		Logger.println("CLIENT_TCP","MainClient:StoreAnalysis","process request",req,Logger.Color.CYAN);
 		ps.println(req);
 		answer = br.readLine();
-		if (answer.startsWith("ERR")) {
-			System.out.println("error with request store measure:"+answer);
-		}
-		else {
-			System.out.println(answer);
-		}
+		Logger.println("CLIENT_TCP","MainClient:StoreAnalysis",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 	}
 }
 		
