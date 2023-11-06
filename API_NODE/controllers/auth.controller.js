@@ -9,7 +9,7 @@ const jwt = require('jsonwebtoken')
 const Config = require("../commons/config");
 const validator = require('validator');
 
-const User = require('../models/user.model');
+const User = require('../models/user.schema');
 
 const UserErrors = require('../commons/user.errors');
 const AuthErrors = require('../commons/auth.errors');

@@ -3,7 +3,7 @@
  * @module UserController
  */
 
-const User = require('../models/user.model');
+const User = require('../models/user.schema');
 const UserErrors = require('../commons/user.errors');
 const Config = require('../commons/config');
 
