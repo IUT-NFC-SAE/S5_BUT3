@@ -1,0 +1,97 @@
+#include <BME280I2C.h>
+#include <Wire.h>
+#include <WiFi.h>
+#include <HTTPClient.h>
+#include <BH1750.h> // Bibliothèque pour le capteur de luminosité BH1750
+
+
+// Trouver les capteurs corrects pour la pluie et le vent
+// Visiblement, pas besoin de bibliothèque pour la pluie
+#include <RainSensor.h> // Bibliothèque pour le capteur de pluie
+
+
+
+#include <AnalogSensor.h> // Bibliothèque pour le capteur de vent analogique
+
+#define SERIAL_BAUD 115200
+
+// Changer le ssid, password, et l'adresse du serveur
+const char* ssid = "testingiot";
+const char* password = "testingiot";
+const char* serverIP = "192.168.0.2";
+const String serverURL = "/storedata.php"; // L'URL du serveur
+const String id = "1"; // ID du microcontrôleur
+
+BME280I2C bme;
+BH1750 lightSensor; // Capteur de luminosité
+RainSensor rainSensor; // Capteur de pluie
+AnalogSensor windSensor(A0); // Capteur de vent sur la broche A0
+
+void setup() {
+  Serial.begin(SERIAL_BAUD);
+
+  while (!Serial) {} // Attendre
+
+  Wire.begin(18, 23);
+
+  while (!bme.begin()) {
+    Serial.println("Could not find BME280 sensor!");
+    delay(1000);
+  }
+
+  switch (bme.chipModel()) {
+    case BME280::ChipModel_BME280:
+      Serial.println("Found BME280 sensor! Success.");
+      break;
+    case BME280::ChipModel_BMP280:
+      Serial.println("Found BMP280 sensor! No Humidity available.");
+      break;
+    default:
+      Serial.println("Found UNKNOWN sensor! Error!");
+  }
+
+  lightSensor.begin();
+  rainSensor.begin();
+
+  // Connexion au WiFi
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
+  }
+}
+
+void loop() {
+  // Acquisition des mesures du BME280
+  float temp(NAN), hum(NAN), pres(NAN);
+  BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
+  BME280::PresUnit presUnit(BME280::PresUnit_Pa);
+  bme.read(pres, temp, hum, tempUnit, presUnit);
+
+  // Lecture des données du capteur de luminosité, de pluie et de vent
+  float light = lightSensor.readLightLevel();
+  bool isRain = rainSensor.isRaining();
+  float windSpeed = windSensor.readValue(); // Lire la vitesse du vent depuis le capteur
+
+  // Construire l'URL avec les valeurs des capteurs
+  String url = "/storedata.php?temp=" + String(temp) + "&humidity=" + String(hum) + "&pressure=" + String(pres)
+               + "&light=" + String(light) + "&rain=" + String(isRain ? "1" : "0") + "&windspeed=" + String(windSpeed);
+
+  // Effectuer la requête HTTP
+  HTTPClient http;
+  http.begin(serverIP, 80, url);
+
+  int httpResponseCode = http.GET();
+
+  if (httpResponseCode > 0) {
+    String response = http.getString();
+    Serial.println("HTTP Response Code: " + String(httpResponseCode));
+    Serial.println("Server Response: " + response);
+  } else {
+    Serial.println("HTTP Request failed");
+  }
+
+  http.end();
+
+  delay(1000);
+}
