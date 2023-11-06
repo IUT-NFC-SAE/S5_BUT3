@@ -4,10 +4,11 @@
       <div class="div-3">
         <div class="div-4">
           <div class="div-5">
-            <div class="div-6"><img src="./assets/logo_sae.png" loading="lazy"/></div>
-            <div class="div-7" @click="scrollToSection('home-section')">Home</div>
-            <div class="div-8" @click="scrollToSection('weather-section')">Weather</div>
-            <div class="div-9" @click="scrollToSection('about-section')">About</div>
+            <div class="div-6"><img :src="require('./assets/logo_sae.png')" loading="lazy"></div>
+            <button class="header" @click="scrollToSection('home-section')">Home</button>
+            <button class="header" @click="scrollToSection('weather-section')">Weather</button>
+            <button class="header" @click="scrollToSection('about-section')">About</button>
+            <button class="header" @click="showLoginModal = true">Connection</button>
           </div>
           <div class="div-10">
             Experience the thrill of real-<br />time weather reporting.
@@ -50,14 +51,14 @@
                 </div>
               </div>
               <div class="column-2">
-                <img loading="lazy" src="./assets/img1.jpg" class="img" />
+                <img loading="lazy" :src="require('./assets/img1.jpg')" class="img" />
               </div>
             </div>
           </div>
           <div class="div-31">
             <div class="div-32">
               <div class="column-3">
-                <img loading="lazy" src="./assets/img2.jpg" class="img" />
+                <img loading="lazy" :src="require('./assets/img2.jpg')" class="img" />
               </div>
               <div class="column-4">
                 <div class="div-33">
@@ -87,14 +88,14 @@
                 </div>
               </div>
               <div class="column-5">
-                <img loading="lazy" src="./assets/img3.jpg" class="img" />
+                <img loading="lazy" :src="require('./assets/img3.jpg')" class="img" />
               </div>
             </div>
           </div>
           <div class="div-43">
             <div class="div-44">
               <div class="column-6">
-                <img loading="lazy" src="./assets/img4.jpg" class="img" />
+                <img loading="lazy" :src="require('./assets/img4.jpg')" class="img" />
               </div>
               <div class="column-7">
                 <div class="div-45">
@@ -153,7 +154,7 @@
                 <a href="lien-facebook" class="social-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path
-                      d="M11 1v3h-3v4h3v16h4v-16h3l1-4h-4v-2c0-1.105.895-2 2-2h2v-4h-3c-3.866 0-7 3.134-7 7v4h-4l-1 4h5v16h6v-16h5l1-4h-6v-3z" />
+                      d="M11 1v3h-3v4h3v16h4v-16h3l1-4h-4v-2c0-1.105.895-2 2-2h2v-4h-3c-3.866 0-7 3.134-7 7v-4h-4l-1-4h-5v-16h-6v-16h-5l-1-4h-6v-3z" />
                   </svg>
                 </a>
                 <a href="lien-twitter" class="social-icon">
@@ -165,7 +166,7 @@
                 <a href="lien-instagram" class="social-icon">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                     <path
-                      d="M12 2c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm-2 3h4c1.11 0 2 0.89 2 2v4c0 1.11-0.89 2-2 2h-4c-1.11 0-2-0.89-2-2v-4c0-1.11 0.89-2 2-2zm0 9c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm6 2c0-1.32-1.08-2.4-2.4-2.4s-2.4 1.08-2.4 2.4 1.08 2.4 2.4 2.4 2.4-1.08 2.4-2.4z" />
+                      d="M12 2c-4.41 0-8 3.59-8 8s3.59 8 8 8 8-3.59 8-8-3.59-8-8-8zm-2 3h4c1.11 0 2 0.89 2 2v4c0 1.11-0.89 2-2 2h-4c-1.11 0-2-0.89-2 2v-4c0-1.11 0.89-2 2-2zm0 9c0-1.66 1.34-3 3-3s3 1.34 3 3-1.34 3-3 3-3-1.34-3-3zm6 2c0-1.32-1.08-2.4-2.4-2.4s-2.4 1.08-2.4 2.4 1.08 2.4 2.4 2.4 2.4-1.08 2.4-2.4z" />
                   </svg>
                 </a>
               </div>
@@ -183,12 +184,60 @@
         </div>
       </div>
     </div>
+    <div class="modal" v-if="showLoginModal">
+      <div class="modal-content">
+        <form class="form">
+          <span class="close-modal" @click="showLoginModal = false">
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
+              <path
+                d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z">
+              </path>
+            </svg>
+          </span>
+          <p class="title">Register </p>
+          <p class="message">Signup now and get full access to our app. </p>
+          <div class="flex">
+            <label>
+              <input required="" placeholder="" type="text" class="input">
+              <span>Firstname</span>
+            </label>
+
+            <label>
+              <input required="" placeholder="" type="text" class="input">
+              <span>Lastname</span>
+            </label>
+          </div>
+
+          <label>
+            <input required="" placeholder="" type="email" class="input">
+            <span>Email</span>
+          </label>
+
+          <label>
+            <input required="" placeholder="" type="password" class="input">
+            <span>Password</span>
+          </label>
+          <label>
+            <input required="" placeholder="" type="password" class="input">
+            <span>Confirm password</span>
+          </label>
+          <button class="submit">Submit</button>
+          <p class="signin">Already have an acount ? <a href="#">Signin</a> </p>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "my-component",
+  data() {
+    return {
+      email: '',
+      password: '',
+      showLoginModal: false
+    };
+  },
   methods: {
     scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
@@ -203,9 +252,9 @@ export default {
 };
 </script>
 
-
 <style scoped>
-@import url('./style.css');
+@import url('./style/app.css');
+@import url('./style/form.css');
 
 .scroll-to-top {
   position: fixed;
