@@ -1,15 +1,8 @@
-/* body::-webkit-scrollbar-track {
-  background-color: #00a8e8
-}
-
-body::-webkit-scrollbar-thumb {
-  background-color: #00a8e8
-} */
-
 body {
   width: 95vw;
   overflow-x: hidden;
 }
+
 
 .div {
   justify-content: center;
@@ -98,7 +91,9 @@ body {
   flex-direction: column;
 }
 
-.div-7 {
+.header {
+  background: none;
+  border: none;
   justify-content: center;
   color: #003459;
   font-family: Manrope, sans-serif;
@@ -110,29 +105,8 @@ body {
   margin-bottom: auto;
 }
 
-.div-8 {
-  justify-content: center;
-  color: #003459;
-  font-family: Manrope, sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 120%;
-  align-self: center;
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.div-9 {
-  justify-content: center;
-  color: #003459;
-  font-family: Manrope, sans-serif;
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 120%;
-  align-self: center;
-  margin-top: auto;
-  margin-bottom: auto;
-  text-wrap: nowrap;
+.header:hover {
+  cursor: pointer;
 }
 
 @media (max-width: 991px) {
