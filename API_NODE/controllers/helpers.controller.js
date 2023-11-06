@@ -12,7 +12,22 @@ const {answer} = require('./ControllerAnswer')
  * @returns {Object}
  */
 const findUser = async function(idUser) {
+  answer.reset()
+
+  try {
     let user = await User.findOne({_id:idUser}).exec();
+    if (user === null) {
+      answer.set(UserErrors.getError(UserErrors.ERR_USER_CANNOT_FIND_ID))
+    }
+    else {
+      answer.setPayload({
+        user: user
+      })
+    }
+  }
+  catch(err) {
+    answer.set(UserErrors.getError(UserErrors.ERR_USER_INVALID_FIND_ID_REQUEST))
+  }
 };
 
 module.exports = {

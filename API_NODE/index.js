@@ -4,6 +4,7 @@ const cors = require("cors");
 
 const path = require('path');
 const fs = require('fs');
+const http = require('http');
 
 const result = require('dotenv').config();
 if (result.error) {
@@ -19,6 +20,10 @@ app.use((req,res,next) => {
   res.status(404).send({error:1, status: 404, data: 'route d\'accès à l\'API invalide'})
 })
 
-app.listen("3000", () => {
-    console.log("Listening to http://localhost:3000/");
-})
+app.use('/weatherapi', weatherapiRouter);
+
+
+const httpServer = http.createServer(app);
+httpServer.listen(process.env.PORT, () =>
+  console.log(`weatherapi started on port ${process.env.PORT}!`)
+);
