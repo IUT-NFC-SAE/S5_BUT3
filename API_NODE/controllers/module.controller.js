@@ -3,9 +3,9 @@
  * @module MeasureController
  */
 
-const Module = require('../models/module.model')
+const Module = require('../models/module.schema')
 const ModuleErrors = require('../commons/module.errors')
-const Chipset = require('../models/chipset.model')
+const Chipset = require('../models/chipset.schema')
 const { v4: uuidv4 } = require('uuid');
 
 const Config = require('../commons/config');

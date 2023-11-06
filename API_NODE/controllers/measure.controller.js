@@ -3,8 +3,8 @@
  * @module MeasureController
  */
 
-const Measure = require('../models/measure.model')
-const Module = require('../models/module.model')
+const Measure = require('../models/measure.schema')
+const Module = require('../models/module.schema')
 const MeasureErrors = require('../commons/measure.errors')
 const ModuleErrors = require('../commons/module.errors')
 
