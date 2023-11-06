@@ -1,6 +1,6 @@
-const User = require('./models/user.model');
-const Module = require('./models/module.model');
-const Chipset = require('./models/chipset.model')
+const User = require('./models/user.schema');
+const Module = require('./models/module.schema');
+const Chipset = require('./models/chipset.schema')
 const bcrypt = require('bcryptjs');
 const SALT_WORK_FACTOR = 10;
 
