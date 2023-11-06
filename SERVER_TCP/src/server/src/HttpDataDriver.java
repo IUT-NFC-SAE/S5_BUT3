@@ -63,6 +63,7 @@ public class HttpDataDriver implements DataDriver {
         }
         payload += "\""+chipsets.get(i)+"\"]}";
 
+        Logger.println("SERVER_TCP","HttpDataDriver","/module/register",payload, Logger.Color.WHITE);
         Document doc = postRequest("/module/register", payload);
         if (doc == null) {
             return "ERR cannot join the API";
