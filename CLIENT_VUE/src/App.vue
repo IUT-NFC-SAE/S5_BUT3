@@ -184,45 +184,66 @@
         </div>
       </div>
     </div>
-    <div class="modal" v-if="showLoginModal">
+
+    <!-- Formulaire de connection -->
+    <div class="modal" v-if="showLoginModal && showRegisterForm">
       <div class="modal-content">
         <form class="form">
           <span class="close-modal" @click="showLoginModal = false">
-            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 50 50">
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
+              viewBox="0 0 50 50">
               <path
                 d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z">
               </path>
             </svg>
           </span>
-          <p class="title">Register </p>
-          <p class="message">Signup now and get full access to our app. </p>
-          <div class="flex">
-            <label>
-              <input required="" placeholder="" type="text" class="input">
-              <span>Firstname</span>
-            </label>
-
-            <label>
-              <input required="" placeholder="" type="text" class="input">
-              <span>Lastname</span>
-            </label>
-          </div>
+          <p class="title">Login </p>
+          <label>
+            <input required="true" placeholder="" type="text" class="input">
+            <span>Login</span>
+          </label>
 
           <label>
-            <input required="" placeholder="" type="email" class="input">
+            <input required="true" placeholder="" type="password" class="input">
+            <span>Password</span>
+          </label>
+          <button class="submit">Submit</button>
+          <p class="signin">Don't have an acount ? <a href="#" @click="showRegisterForm = !showRegisterForm">Create one
+              here</a> </p>
+        </form>
+      </div>
+    </div>
+    <!-- Formulaire de création de compte -->
+    <div class="modal" v-if="showLoginModal && !showRegisterForm">
+      <div class="modal-content">
+        <form class="form">
+          <span class="close-modal" @click="showLoginModal = false">
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100"
+              viewBox="0 0 50 50">
+              <path
+                d="M 7.71875 6.28125 L 6.28125 7.71875 L 23.5625 25 L 6.28125 42.28125 L 7.71875 43.71875 L 25 26.4375 L 42.28125 43.71875 L 43.71875 42.28125 L 26.4375 25 L 43.71875 7.71875 L 42.28125 6.28125 L 25 23.5625 Z">
+              </path>
+            </svg>
+          </span>
+          <p class="title">Connexion </p>
+
+          <label>
+            <input required="true" placeholder="" type="text" class="input">
+            <span>Login</span>
+          </label>
+
+          <label>
+            <input required="true" placeholder="" type="email" class="input">
             <span>Email</span>
           </label>
 
           <label>
-            <input required="" placeholder="" type="password" class="input">
+            <input required="true" placeholder="" type="password" class="input">
             <span>Password</span>
           </label>
-          <label>
-            <input required="" placeholder="" type="password" class="input">
-            <span>Confirm password</span>
-          </label>
+
           <button class="submit">Submit</button>
-          <p class="signin">Already have an acount ? <a href="#">Signin</a> </p>
+          <p class="signin">Already have an acount ? <a @click="showRegisterForm = !showRegisterForm">Signin</a> </p>
         </form>
       </div>
     </div>
@@ -230,12 +251,17 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
+      authenticated: false,
       email: '',
       password: '',
-      showLoginModal: false
+      login: '',
+      showLoginModal: false,
+      showRegisterForm: true,
+
     };
   },
   methods: {
@@ -247,6 +273,13 @@ export default {
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    async authentication() {
+      this.authenticated = await axios.post('http://localhost:4567/auth/signin', {
+        login: this.login,
+        password: this.password
+      })
     },
   },
 };
