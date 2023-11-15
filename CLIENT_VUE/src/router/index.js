@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AppVue from '@/App.vue'
 import LoginForm from '@/views/LoginForm.vue'
+import BarChart from '@/components/BarChartComponent.vue'
 
 Vue.use(VueRouter)
 
@@ -9,7 +10,7 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: AppVue
+    component:  {AppVue, BarChart}
   },
   {
     path: '/about',
