@@ -19,7 +19,7 @@
 const char* ssid = "testingiot";
 const char* password = "testingiot";
 const char* serverIP = "127.0.0.1"; // mettre localhost
-const int serverPort = 3000 // mettre le port correspondant
+const int serverPort = 12345 // mettre le port correspondant
 //const String serverURL = "/storedata.php"; // L'URL du serveur -> pas important si transfert en HTTP
 const String id = "1"; // ID du microcontrôleur
 
