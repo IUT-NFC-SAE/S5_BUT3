@@ -3,6 +3,8 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <BH1750.h> // Bibliothèque pour le capteur de luminosité BH1750
+#include <ArduinoJson.h>
+
 
 
 // Trouver les capteurs corrects pour la pluie et le vent
@@ -21,6 +23,14 @@ const char* password = "testingiot";
 const char* serverIP = "192.168.0.2";
 const String serverURL = "/storedata.php"; // L'URL du serveur
 const String id = "1"; // ID du microcontrôleur
+
+StaticJsonDocument<1000> docTemp; 
+StaticJsonDocument<1000> docHum;
+StaticJsonDocument<1000> docPress;
+StaticJsonDocument<1000> docRain; 
+
+
+
 
 BME280I2C bme;
 BH1750 lightSensor; // Capteur de luminosité
@@ -72,6 +82,24 @@ void loop() {
   float light = lightSensor.readLightLevel();
   bool isRain = rainSensor.isRaining();
   float windSpeed = windSensor.readValue(); // Lire la vitesse du vent depuis le capteur
+
+  
+
+//{
+//  "type" : "TEMPERATURE",
+//  "date" : "2020-05-13",
+//  "value" : 5,
+//  "module" : "$id",
+//}
+
+  JsonObject doc_0_Temp = docTemp.createNestedObject();
+  doc_0_Temp["type"] = "TEMPERATURE";
+  doc_0_Temp["date"] = ;
+  doc_0_Temp["value"] = String(temp);
+  doc_0_Temp["module"] = id;
+
+
+
 
   // Construire l'URL avec les valeurs des capteurs
   String url = "/storedata.php?temp=" + String(temp) + "&humidity=" + String(hum) + "&pressure=" + String(pres)
