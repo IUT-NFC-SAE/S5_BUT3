@@ -94,6 +94,7 @@
 
 .signin a:hover {
   text-decoration: underline #00a8e8;
+  cursor: pointer;
 }
 
 .flex {
