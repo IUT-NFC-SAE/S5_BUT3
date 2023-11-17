@@ -15,6 +15,8 @@
           </div>
         </div>
       </div>
+
+      <BarChart></BarChart>
       <div class="div-11" id="home-section">
         <div class="div-12">Weather Insights, Unleashed</div>
         <div class="div-13">
@@ -251,8 +253,12 @@
 </template>
 
 <script>
+import BarChart from './components/BarChartComponent.vue';
 import axios from 'axios';
 export default {
+  components:{
+    BarChart
+  },
   data() {
     return {
       authenticated: false,
