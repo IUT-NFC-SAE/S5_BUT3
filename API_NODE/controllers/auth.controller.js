@@ -4,6 +4,7 @@
  */
 const bcrypt = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken')
 
 const Config = require("../commons/config");
 const validator = require('validator');
@@ -80,11 +81,7 @@ const signIn = async function (req, res, next) {
     answer.set(AuthErrors.getError(AuthErrors.ERR_AUTH_PASSWORD_NO_MATCH))
     return next(answer);
   }
-
-  // here should add a jwt token creation, or something else
-  // to provide a secure authentication for following requests
-  // For now just generate a random session id that must be prodvided in next requests.
-
+  
   let sessionId = uuidv4();
   user.sessionId = sessionId
   try {
@@ -94,10 +91,10 @@ const signIn = async function (req, res, next) {
     answer.set(UserErrors.getError(UserErrors.ERR_USER_CANNOT_UPDATE))
     return next(answer)
   }
-
+  
+  let jwttoken = jwt.sign({rights: user.rights, token: sessionId}, 'secretkey'); //JWT TOKEN
   answer.setPayload({
-    rights: user.rights,
-    token: sessionId,
+    token: jwttoken,
   })
 
   res.status(200).send(answer);
@@ -105,31 +102,38 @@ const signIn = async function (req, res, next) {
 
 const verifyToken = async function (req, res, next) {
 
-  answer.reset()
+  answer.reset();
 
-  // suppose that the session id is in the request headers
-  let id = req.headers["x-session-id"];
-  // first check if xsrf token exists, and if not it is assumed that no login was sucessful
-  if (!id) {
+  // Extract the JWT token from the request headers
+  const token = req.headers['authorization']; // Assuming the token is in the 'Authorization' header
+
+  if (!token) {
     answer.set(AuthErrors.getError(AuthErrors.ERR_AUTH_NO_TOKEN));
     return next(answer);
   }
-  // now find if user in in DB and bind it the req
+
   try {
-    let user = await User.findOne({sessionId: id}).exec()
-    if (user === null) {
-      answer.set (AuthErrors.getError(AuthErrors.ERR_AUTH_NOT_AUTHORIZED));
+    // Verify and decode the JWT token using the secret key
+    const decoded = jwt.verify(token, secretKey);
+
+    // Find the user associated with the session ID from the decoded token
+    const user = await User.findOne({ sessionId: decoded.token }).exec();
+
+    if (!user) {
+      answer.set(AuthErrors.getError(AuthErrors.ERR_AUTH_NOT_AUTHORIZED));
       return next(answer);
     }
+
+    // Attach the user to the request for further use
     req.user = user;
-  }
-  catch(err) {
-    answer.set (AuthErrors.getError(AuthErrors.ERR_AUTH_NOT_AUTHORIZED));
+
+    // Continue to the next middleware or route
+    return next();
+  } catch (err) {
+    answer.set(AuthErrors.getError(AuthErrors.ERR_AUTH_NOT_AUTHORIZED));
     return next(answer);
   }
-  return next();
-
-}
+};
 
 /**
  * checks if the current user (get from a valid token) is admin
