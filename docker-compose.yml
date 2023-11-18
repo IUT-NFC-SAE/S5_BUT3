@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+
+  mongodb:
+    image: mongo
+    container_name: bdd_mongo
+    #ports:
+    #- "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - network
+
+  server_tcp:
+    container_name: server_tcp
+    depends_on:
+      - server_node
+    environment:
+      SERVER_TCP_PORT: 12345
+      SERVER_TCP_IP_ADDR: server_tcp
+      API_URL: http://server_node:3000/weatherapi
+      MONGO_URL: mongodb://bdd_mongo:27017/weatherapi
+    build:
+      context: ./SERVER_TCP
+      dockerfile: Dockerfile
+    ports:
+      - "12345:12345"
+    networks:
+      - network
+
+  server_node:
+    container_name: server_node
+    depends_on:
+      - mongodb
+    environment:
+      PORT: 3000
+      MONGODB_URI: mongodb://bdd_mongo:27017/weatherapi
+    build:
+      context: ./API_NODE
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - network
+
+networks:
+  network:
+    driver: bridge
+
+volumes:
+  mongodb_data:

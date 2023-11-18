@@ -1,9 +1,11 @@
+package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.*;
 
 class WeatherCentralServer {
 
-  public static final Dotenv dotenv = Dotenv.configure().directory("../../.env").load();
+  public static final Dotenv dotenv = Dotenv.configure().load();
 
   public static void main(String []args) {
 
@@ -12,6 +14,7 @@ class WeatherCentralServer {
     try {
       int port = Integer.parseInt(dotenv.get("SERVER_TCP_PORT"));
       server = new MainServer(port);
+      Logger.println("SERVER_TCP","WeatherCentralServer","server started", String.valueOf(port), Logger.Color.GREEN);
       server.mainLoop();
     }
     catch(IOException e) {

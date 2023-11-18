@@ -1,9 +1,10 @@
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.Logger;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.*;
 
 class WeatherClient {
 
-  public static final Dotenv dotenv = Dotenv.configure().directory("../../.env").load();
+  public static final Dotenv dotenv = Dotenv.configure().load();
 
   public static void main(String []args) {
 

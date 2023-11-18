@@ -9,5 +9,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Maven: io.github.cdimascio:dotenv-java:3.0.0" level="project" />
     <orderEntry type="module" module-name="SERVER_TCP" />
+    <orderEntry type="library" name="Maven: org.mongodb:bson:4.11.0" level="project" />
   </component>
 </module>

@@ -1,3 +1,5 @@
+package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+
 import org.bson.types.*;
 import java.util.List;
 

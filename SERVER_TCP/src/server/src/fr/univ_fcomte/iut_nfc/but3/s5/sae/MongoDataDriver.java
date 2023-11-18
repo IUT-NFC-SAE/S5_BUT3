@@ -1,3 +1,5 @@
+package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
