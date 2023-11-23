@@ -44,6 +44,22 @@ services:
     networks:
       - network
 
+  client_vue:
+    container_name: client_vue
+    depends_on:
+      - server_node
+    environment:
+      VUE_APP_PORT: 8080
+      VUE_APP_HOSTNAME: client_vue
+      SERVER_URL: http://127.0.0.1:3000 #browser hostname
+    build:
+      context: ./CLIENT_VUE
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - network
+
 networks:
   network:
     driver: bridge
