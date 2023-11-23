@@ -13,7 +13,7 @@ services:
       - network
 
   servertcp:
-    container_name: servertcp
+    container_name: server_tcp
     depends_on:
       - servernode
     environment:
@@ -30,7 +30,7 @@ services:
       - network
 
   servernode:
-    container_name: servernode
+    container_name: server_node
     depends_on:
       - mongodb
     environment:
@@ -45,7 +45,7 @@ services:
       - network
 
   clientvue:
-    container_name: clientvue
+    container_name: client_vue
     depends_on:
       - servernode
     environment:
