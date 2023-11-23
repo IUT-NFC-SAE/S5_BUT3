@@ -22,7 +22,7 @@ async function initChipsets() {
       console.log("added lm35 chipset");
     }
   } catch (err) {
-    console.log("cannot add lm35 chipset")
+    console.log("cannot add lm35 chipset", err)
   }
   try {
     bme280 = await Chipset.findOne({name: 'bme280'}).exec()
@@ -37,7 +37,7 @@ async function initChipsets() {
       console.log("added bme280 chipset");
     }
   } catch (err) {
-    console.log("cannot add bme280 chipset")
+    console.log("cannot add bme280 chipset", err)
   }
 }
 
@@ -58,7 +58,7 @@ async function initModules() {
       console.log("added module 1");
     }
   } catch (err) {
-    console.log("cannot add module 1")
+    console.log("cannot add module 1", err)
   }
   try {
     mod2 = await Module.findOne({name: 'module 2'}).exec()
@@ -74,7 +74,7 @@ async function initModules() {
       console.log("added module 2");
     }
   } catch (err) {
-    console.log("cannot add module 2")
+    console.log("cannot add module 2", err)
   }
 }
 
@@ -95,7 +95,7 @@ async function initUsers() {
       console.log("added admin");
     }
   } catch (err) {
-    console.log("cannot add admin")
+    console.log("cannot add admin", err)
   }
   let test = null
   try {
@@ -113,7 +113,7 @@ async function initUsers() {
       console.log("added test");
     }
   } catch (err) {
-    console.log("cannot add test")
+    console.log("cannot add test", err)
   }  
   
 }
