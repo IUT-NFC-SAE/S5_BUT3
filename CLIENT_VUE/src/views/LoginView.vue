@@ -1,20 +1,15 @@
 <template>
   <div style="background: red">
-    <h2>Connexion</h2>
-    <form @submit.prevent="login">
-      <div>
-        <UInput @change="email = $event.value" color="sky" variant="outline" name="input" placeholder="E-mail" />
-      </div>
-      <div>
-        <UInput @change="email = $event.value" color="sky" variant="outline" name="input" placeholder="Mot de passe" />
-      </div>
-      <button type="submit">Se connecter</button>
-    </form>
+    <LoginForm></LoginForm>
   </div>
 </template>
 
 <script>
+import LoginForm from '@/components/LoginForm'
 export default {
+  components: {
+    LoginForm,
+  },
   data() {
     return {
       email: "",
