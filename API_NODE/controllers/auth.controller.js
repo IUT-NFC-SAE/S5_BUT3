@@ -56,8 +56,9 @@ function checkPassword(password) {
 const signIn = async function (req, res, next) {
   answer.reset()
 
-  console.log('sign in');
+  console.log('sign in CHECK');
 
+  console.log(req.body);
   // sanity check on parameters
   if ((!checkLogin(req.body.login)) ||
       (!checkPassword(req.body.password))) {
@@ -96,7 +97,7 @@ const signIn = async function (req, res, next) {
   answer.setPayload({
     token: jwttoken,
   })
-
+  console.log(jwttoken)
   res.status(200).send(answer);
 };
 

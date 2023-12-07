@@ -7,6 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     authToken: null,
+
   },
   getters: {
     processedAuthToken: (state) => {
@@ -20,14 +21,15 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    async login({ commit }, user) {
+    async loginUser({ commit }, user) {
       console.log("test ");
       try {
-        const response = await axios.post('your_api_endpoint', {
-          email: user.email,
+        const response = await axios.post('http://localhost:4567/weatherapi/auth/signin', {
+          login: user.login,
           password: user.password,
         });
         const token = response.data.token;
+        console.log(token);
         commit('setAuthToken', token);
         return token; // Return the token for potential further use
       } catch (error) {
@@ -35,6 +37,19 @@ export default new Vuex.Store({
         throw error; // Re-throw the error for the component to handle
       }
     },
+    /*async getMeasure({commit}, ){
+      console.log("getMeasure")
+      try {
+        const response = await axios.get('http://localhost:4567/weatherapi/measure/get', {
+
+        })
+        const measures = response.data.measures;
+
+      } catch (error) {
+        console.error('Get Measure failed:', error);
+        throw error; // Re-throw the error for the component to handle
+      }
+    },*/
   },
   modules: {
   }

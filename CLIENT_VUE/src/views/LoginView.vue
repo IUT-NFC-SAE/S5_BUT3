@@ -12,17 +12,17 @@ export default {
   },
   data() {
     return {
-      email: "",
+      login: "",
       password: "",
     };
   },
   methods: {
-    login() {
+    loginUser() {
       // Vous pouvez ajouter ici la logique d'authentification, par exemple, en utilisant une API
-      console.log("Email:", this.email);
+      console.log("Email:", this.login);
       console.log("Mot de passe:", this.password);
       // Réinitialisez les champs après la soumission du formulaire
-      this.email = "";
+      this.login = "";
       this.password = "";
     },
   },

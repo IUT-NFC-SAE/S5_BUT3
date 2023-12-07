@@ -10,7 +10,7 @@
 
             <v-card-text>
                 <v-form>
-                    <v-text-field v-model="email" label="Login" required></v-text-field>
+                    <v-text-field v-model="login" label="Login" required></v-text-field>
                     <v-text-field v-model="password" label="Password" type="password" required></v-text-field>
 
                     <v-btn @click="submitForm" color="primary" dark>Submit</v-btn>
@@ -30,13 +30,13 @@ import { mapActions } from 'vuex';
 export default {
     data() {
         return {
-            email: '',
+            login: '',
             password: '',
             showLoginModal: true,
         };
     },
     methods: {
-        ...mapActions(["login"]), // Map the 'setAuthToken' action
+        ...mapActions(["loginUser"]), // Map the 'setAuthToken' action
         closeModal() {
             this.$emit('close'); // emit the event
         },
@@ -47,8 +47,8 @@ export default {
         async submitForm() {
             console.log('Before dispatch');
             try {
-                const token = await this.$store.dispatch('login', {
-                    email: this.email,
+                const token = await this.$store.dispatch('loginUser', {
+                    login: this.login,
                     password: this.password,
                 });
                 console.log('After dispatch');

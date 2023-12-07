@@ -1,6 +1,7 @@
 const User = require('./models/user.model');
 const Module = require('./models/module.model');
 const Chipset = require('./models/chipset.model')
+const Measure = require('./models/measure.model')
 const bcrypt = require('bcryptjs');
 const SALT_WORK_FACTOR = 10;
 
@@ -76,6 +77,25 @@ async function initModules() {
   } catch (err) {
     console.log("cannot add module 2", err)
   }
+  // Assuming you have a function to create a fake measure
+  async function createFakeMeasure(module, type, value) {
+    const measure = new Measure({
+      type: type,
+      date: new Date(),
+      value: value,
+      module: module._id,
+    });
+    return await measure.save();
+  }
+
+  // Add fake temperature, humidity, and pressure measures for module 1
+  await createFakeMeasure(mod1, 'temperature', '25.5');
+  await createFakeMeasure(mod1, 'humidity', '50');
+  await createFakeMeasure(mod1, 'pressure', '1013.25');
+
+  // Add fake temperature, humidity measures for module 2
+  await createFakeMeasure(mod2, 'temperature', '22.3');
+  await createFakeMeasure(mod2, 'humidity', '60');
 }
 
 async function initUsers() {
