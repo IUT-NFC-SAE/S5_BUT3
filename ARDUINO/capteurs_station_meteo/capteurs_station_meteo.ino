@@ -18,14 +18,15 @@ const char* serverIP = "192.168.25.17"; // Adresse IP réelle du server car 127.
 const int serverPort = 12345;
 const String id = "1";                  // ID du microcontrôleur
 String key = "";                        // key du module (initialisée lors de la connexion au server)
+const int requestTimeoutResponse = 10000;
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
 
 BME280I2C bme;
-//BH1750 lightSensor; // Capteur de luminosité
-//RainSensor rainSensor; // Capteur de pluie
-//AnalogSensor windSensor(A0); // Capteur de vent sur la broche A0
+//BH1750 lightSensor;           // Capteur de luminosité
+//RainSensor rainSensor;        // Capteur de pluie
+//AnalogSensor windSensor(A0);  // Capteur de vent sur la broche A0
 
 int luminSensorPin = 34;
 
@@ -35,11 +36,12 @@ void setup() {
   Serial.begin(SERIAL_BAUD);
   initSensors();
   connectToWifi(ssid,password);
+  connectToServer(serverIP,serverPort);
 }
 
 void loop() {
-  if (!client.connected()) {
-    connectToServer();
+  if (WiFi.status() != WL_CONNECTED ) {
+    connectToWifi(ssid,password);
   } else {
 
     // Mesures de la luminosité
@@ -97,15 +99,14 @@ void connectToWifi(const char* ssid, const char* password) {
   Serial.println("\nConnected to WiFi !");
 }
 
-void connectToServer() {
+void connectToServer(const char* ip, const int port) {
   Serial.print("Connecting to server ...");
-  if (client.connect(serverIP, serverPort)) {
-    Serial.println("\nConnected to server !");
-    client.println(id); // Envoyer l'ID du microcontrôleur
-    registerUc();
-  } else {
-    Serial.print(".");
+  while(!client.connect(ip, port)) {
+   Serial.print(".");
   }
+  Serial.println("\nConnected to server !");
+  client.println(id); // Envoyer l'ID du microcontrôleur
+  registerUc();
 }
 
 void registerUc() {
@@ -126,14 +127,24 @@ void storeMeasure(String measureType, String value) {
   sendRequest(request);
 }
 
-
 String sendRequest(String request) {
+  // Server connection
+  if(!client.connected()) {
+    connectToServer(serverIP,serverPort);
+  }
+  
   // Send data
   Serial.println("Server Request: " + request);
   client.println(request);
 
   // Wait for server response
+  unsigned long startTime = millis();
   while (!client.available()) {
+    // Check for timeout
+    if (millis() - startTime > requestTimeoutResponse) {
+      Serial.println("Timeout reached. No response from the server.");
+      return "";
+    }
     delay(1);
   }
 

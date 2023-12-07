@@ -14,11 +14,11 @@ class WeatherCentralServer {
     try {
       int port = Integer.parseInt(dotenv.get("SERVER_TCP_PORT"));
       server = new MainServer(port);
-      Logger.println("SERVER_TCP","WeatherCentralServer","server started", String.valueOf(port), Logger.Color.GREEN);
+      Logger.println("SERVER_TCP","WeatherCentralServer","server started !", String.valueOf(port), Logger.Color.GREEN);
       server.mainLoop();
     }
     catch(IOException e) {
-      Logger.println("SERVER_TCP","WeatherCentralServer","server down",e.getMessage(), Logger.Color.RED);
+      Logger.println("SERVER_TCP","WeatherCentralServer","server down !",e.getMessage(), Logger.Color.RED);
       System.exit(1);
     }
   }

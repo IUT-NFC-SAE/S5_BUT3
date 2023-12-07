@@ -40,29 +40,29 @@ class ThreadServer extends Thread {
 		String[] reqParts;
 
 		try {
-			while(true) {
+			while(!Thread.currentThread().isInterrupted()) {
 				req = br.readLine();
 				if ((req == null) || (req.isEmpty())) {
-					break;
-				}
+					// Do nothing
+				} else {
+					reqParts = req.split(" ");
+					idReq = reqParts[0];
 
-				reqParts = req.split(" ");
-				idReq = reqParts[0];
-
-				if ("AUTOREGISTER".equals(idReq)) {
-					requestAutoRegister(reqParts);
-				}
-				else if ("STOREMEASURE".equals(idReq)) {
-					requestStoreMeasure(reqParts);
-				}
-				else if ("STOREANALYSIS".equals(idReq)) {
-					requestStoreAnalysis(reqParts);
+					if ("AUTOREGISTER".equals(idReq)) {
+						requestAutoRegister(reqParts);
+					}
+					else if ("STOREMEASURE".equals(idReq)) {
+						requestStoreMeasure(reqParts);
+					}
+					else if ("STOREANALYSIS".equals(idReq)) {
+						requestStoreAnalysis(reqParts);
+					}
 				}
 			}
 			Logger.println("SERVER_TCP","ThreadServer","end of request loop",null, Logger.Color.YELLOW);
 		}
 		catch(IOException e) {
-			Logger.println("SERVER_TCP","ThreadServer","problem with receiving request",e.getMessage(), Logger.Color.RED);
+			Logger.println("SERVER_TCP","ThreadServer","problem with request",e.getMessage(), Logger.Color.RED);
 		}
 	}
 
