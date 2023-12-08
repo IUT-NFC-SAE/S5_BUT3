@@ -157,7 +157,6 @@ const register = async function (req, res, next) {
  * @alias module:MeasureController.create
  */
 const create = async function (req, res, next) {
-
   answer.reset()
   // sanity check on parameters
   if ((!checkName(req.body.name)) ||

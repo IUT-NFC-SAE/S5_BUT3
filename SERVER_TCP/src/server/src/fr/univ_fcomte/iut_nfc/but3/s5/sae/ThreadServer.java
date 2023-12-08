@@ -48,7 +48,7 @@ class ThreadServer extends Thread {
 					reqParts = req.split(" ");
 					idReq = reqParts[0];
 
-					if ("AUTOREGISTER".equals(idReq)) {
+					if ("AUTOREGISTER".equals(idReq )) {
 						requestAutoRegister(reqParts);
 					}
 					else if ("STOREMEASURE".equals(idReq)) {

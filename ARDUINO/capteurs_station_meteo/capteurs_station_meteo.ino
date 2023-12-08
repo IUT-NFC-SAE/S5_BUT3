@@ -2,6 +2,8 @@
 #include <WiFiClient.h>
 #include <NTPClient.h>
 #include <WiFiUdp.h>
+#include <SPIFFS.h>
+#include <ESP.h>
 
 // Bibliothèques des capteurs
 #include <BME280I2C.h>
@@ -12,13 +14,13 @@
 
 #define SERIAL_BAUD 115200
 
-const char* ssid = "Maxime";
-const char* password = "maxime90100";
-const char* serverIP = "192.168.25.17"; // Adresse IP réelle du server car 127.0.0.1 = localhost de la carte elle-même
-const int serverPort = 12345;
-const String id = "1";                  // ID du microcontrôleur
-String key = "";                        // key du module (initialisée lors de la connexion au server)
-const int requestTimeoutResponse = 10000;
+const char* ssid = "Maxime";                // Nom WiFi
+const char* password = "maxime90100";       // Mot de passe WiFi
+const char* serverIP = "192.168.25.17";     // Adresse IP réelle du server car 127.0.0.1 = localhost de la carte elle-même
+const int serverPort = 12345;               // Port du server
+const int requestTimeoutResponse = 10000;   // Temps maximal d'attente de reponse du server
+const int delayBetweenMeasures = 10000;     // Temps d'attente entre chaque mesure
+String key = "";                            // key du module (initialisée lors de la connexion au server)
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
@@ -28,20 +30,38 @@ BME280I2C bme;
 //RainSensor rainSensor;        // Capteur de pluie
 //AnalogSensor windSensor(A0);  // Capteur de vent sur la broche A0
 
-int luminSensorPin = 34;
+const int luminSensorPin = 34;
 
 WiFiClient client;
 
 void setup() {
   Serial.begin(SERIAL_BAUD);
+
+  // Initialisation de la mémoire flash
+  if (!SPIFFS.begin(true)) {
+    Serial.println("Erreur lors de l'initialisation de SPIFFS. Tentative de formatage.");
+    SPIFFS.format();  // Formate la mémoire flash
+    if (!SPIFFS.begin(true)) {
+        Serial.println("Impossible de formater SPIFFS.");
+        return;
+    }
+  } else {
+    Serial.println("Initialisation de SPIFFS réussie !");
+  }
+
   initSensors();
   connectToWifi(ssid,password);
   connectToServer(serverIP,serverPort);
+  key = readDataFromFlashMemory("key");
 }
 
 void loop() {
   if (WiFi.status() != WL_CONNECTED ) {
     connectToWifi(ssid,password);
+  } else if(!client.connected()) {
+    connectToServer(serverIP,serverPort);
+  } else if(key == "") {
+    registerUc();
   } else {
 
     // Mesures de la luminosité
@@ -62,7 +82,7 @@ void loop() {
     storeMeasure("HUMIDITE",String(hum));
     storeMeasure("PRESSION",String(pres));
     storeMeasure("LIGHT",String(unsigned(resistance)));
-    delay(5000);
+    delay(delayBetweenMeasures);
   }
 }
 
@@ -105,8 +125,7 @@ void connectToServer(const char* ip, const int port) {
    Serial.print(".");
   }
   Serial.println("\nConnected to server !");
-  client.println(id); // Envoyer l'ID du microcontrôleur
-  registerUc();
+  //client.println(id); // Envoyer l'ID du microcontrôleur
 }
 
 void registerUc() {
@@ -118,6 +137,7 @@ void registerUc() {
   if (response.startsWith("OK")) {
     int lastCommaIndex = response.lastIndexOf(',');
     key = response.substring(lastCommaIndex + 1);
+    saveDataInFlashMemory("key", key);
   }
 }
 
@@ -128,11 +148,6 @@ void storeMeasure(String measureType, String value) {
 }
 
 String sendRequest(String request) {
-  // Server connection
-  if(!client.connected()) {
-    connectToServer(serverIP,serverPort);
-  }
-  
   // Send data
   Serial.println("Server Request: " + request);
   client.println(request);
@@ -155,5 +170,44 @@ String sendRequest(String request) {
     response += c;
   }
   Serial.println("Server Response: " + response);
+
+  response.trim();
+  if (response == String("clé de module invalide") || response == String("module key is invalid")){
+    Serial.println("Le module n'existe plus dans la bdd, tentative de reconnexion ...");
+    SPIFFS.format();
+    ESP.restart();
+  }
   return response;
+}
+
+void saveDataInFlashMemory(const String &key, const String &data) {
+    File file = SPIFFS.open("/data.txt", "a+");
+    if (!file) {
+        Serial.println("Erreur lors de l'ouverture du fichier dans la mémoire flash");
+        return;
+    }
+
+    file.println(key + "=" + data);
+    file.close();
+
+    Serial.println("Données enregistrées avec succès");
+}
+
+String readDataFromFlashMemory(const String &key) {
+    File file = SPIFFS.open("/data.txt", "r");
+    if (!file) {
+        Serial.println("Erreur lors de l'ouverture du fichier dans la mémoire flash");
+        return "";
+    }
+
+    while (file.available()) {
+        String line = file.readStringUntil('\n');
+        if (line.startsWith(key + "=")) {
+            file.close();
+            return line.substring(key.length() + 1);
+        }
+    }
+
+    file.close();
+    return "";
 }
