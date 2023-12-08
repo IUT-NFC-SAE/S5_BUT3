@@ -8,9 +8,6 @@
 // Bibliothèques des capteurs
 #include <BME280I2C.h>
 #include <Wire.h>
-//#include <BH1750.h>       // Capteur de luminosité BH1750
-//#include <RainSensor.h>   // Capteur de pluie
-//#include <AnalogSensor.h> // Capteur de vent analogique
 
 #define SERIAL_BAUD 115200
 
@@ -24,15 +21,8 @@ String key = "";                            // key du module (initialisée lors 
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
-
-BME280I2C bme;
-//BH1750 lightSensor;           // Capteur de luminosité
-//RainSensor rainSensor;        // Capteur de pluie
-//AnalogSensor windSensor(A0);  // Capteur de vent sur la broche A0
-
-const int luminSensorPin = 34;
-
 WiFiClient client;
+BME280I2C bme;
 
 void setup() {
   Serial.begin(SERIAL_BAUD);
@@ -64,11 +54,6 @@ void loop() {
     registerUc();
   } else {
 
-    // Mesures de la luminosité
-    int rawValue = analogRead(luminSensorPin);
-    float voltage = rawValue *  ((3.3 / 4095) * 1000);
-    float resistance = 10000 * (voltage / (3300.0 - voltage));
-
     // Mesures du BME280
     float temp(NAN), hum(NAN), pres(NAN);
     BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
@@ -81,7 +66,6 @@ void loop() {
     storeMeasure("TEMPERATURE",String(temp));
     storeMeasure("HUMIDITE",String(hum));
     storeMeasure("PRESSION",String(pres));
-    storeMeasure("LIGHT",String(unsigned(resistance)));
     delay(delayBetweenMeasures);
   }
 }
@@ -104,9 +88,6 @@ void initSensors(){
     default:
       Serial.println("Found UNKNOWN sensor! Error!");
   }
-
-  //lightSensor.begin();
-  //rainSensor.begin();
 }
 
 void connectToWifi(const char* ssid, const char* password) {
@@ -130,7 +111,7 @@ void connectToServer(const char* ip, const int port) {
 
 void registerUc() {
   String uc = "ESP32";
-  String chipsets = "BME280 KY-018 RainSensor";
+  String chipsets = "bme280";
   String requestName = "AUTOREGISTER";
   String request = requestName + " " + uc + " " + chipsets;
   String response = sendRequest(request);
