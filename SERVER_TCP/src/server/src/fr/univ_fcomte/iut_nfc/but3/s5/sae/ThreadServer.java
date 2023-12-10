@@ -36,11 +36,11 @@ class ThreadServer extends Thread {
 	public void requestLoop() {
 
 		String req = "";
-		String idReq;
+		String idReq = "";
 		String[] reqParts;
 
 		try {
-			while(!Thread.currentThread().isInterrupted()) {
+			while(!"LOGOUT".equals(idReq)) {
 				req = br.readLine();
 				if ((req == null) || (req.isEmpty())) {
 					// Do nothing
@@ -48,7 +48,7 @@ class ThreadServer extends Thread {
 					reqParts = req.split(" ");
 					idReq = reqParts[0];
 
-					if ("AUTOREGISTER".equals(idReq )) {
+					if ("AUTOREGISTER".equals(idReq)) {
 						requestAutoRegister(reqParts);
 					}
 					else if ("STOREMEASURE".equals(idReq)) {
