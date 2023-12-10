@@ -1,25 +1,26 @@
 <script>
-import {mapActions, mapState} from "vuex";
-import ModulesCards from "@/components/display/modulesCards.vue";
+
+import {mapActions} from "vuex";
 
 export default {
-  components: {ModulesCards},
-  computed:{
-    ...mapState('databaseModule',['modules'])
-  },
   methods:{
-    ...mapActions('databaseModule',['getAllModules'])
-  },
-  mounted() {
-    this.getAllModules();
+    ...mapActions(['goTo'])
   }
 }
 </script>
 
 <template>
-  <modulesCards :modules="modules"/>
+  <div>
+    <v-btn
+        v-on:click="goTo('/modules')"
+        text="Modules"
+        color="primary"
+    />
+  </div>
 </template>
 
 <style scoped>
-
+div{
+  text-align: center;
+}
 </style>

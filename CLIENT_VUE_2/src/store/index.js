@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import popupModule from "@/store/modules/popup.module";
 import databaseModule from "@/store/modules/database.module";
+import router from "@/router";
 
 const store = new Vuex.Store({
     state: {
@@ -21,7 +22,9 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-
+        goTo(context, path) {
+            router.push(path);
+        },
     },
     getters: {
 

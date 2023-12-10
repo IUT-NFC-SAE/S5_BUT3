@@ -4,6 +4,9 @@ import {mapMutations, mapState} from "vuex";
 import popup from "@/components/informations/popup.vue";
 import store from "@/store";
 
+import logo_light from '@/assets/images/logo_light.webp';
+import logo_dark from '@/assets/images/logo_dark.webp';
+
 export default {
   components:{
     popup
@@ -11,10 +14,7 @@ export default {
   computed:{
     ...mapState(['currentTheme','user']),
     getLogoPath(){
-      let path = "src/assets/images/"
-      if(this.currentTheme.dark) path += "logo_light.webp"
-      else path += "logo_dark.webp"
-      return path
+      return this.currentTheme.dark ? logo_light : logo_dark
     }
   },
   methods:{

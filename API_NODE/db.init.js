@@ -112,9 +112,9 @@ async function initModules() {
   await createFakeMeasure(mod1, 'humidity', '50');
   await createFakeMeasure(mod1, 'pressure', '1013.25');
 
-  // Add fake temperature, humidity measures for module 2
+  // Add fake temperature measures for module 2
   await createFakeMeasure(mod2, 'temperature', '22.3');
-  await createFakeMeasure(mod2, 'humidity', '60');
+  await createFakeMeasure(mod2, 'temperature', '22.5');
 }
 
 async function initUsers() {

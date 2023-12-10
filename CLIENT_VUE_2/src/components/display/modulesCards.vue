@@ -1,12 +1,13 @@
 <script>
-import router from "@/router";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   props: ['modules'],
   computed:{
+    ...mapGetters('databaseModule',['getAllCaps','getModuleCaps','getCapIcon']),
     filteredModules(){
       return this.modules.filter(module => {
-        return this.selectedCaps.every(item => this.moduleCaps(module).includes(item));
+        return this.selectedCaps.every(item => this.getModuleCaps(module).includes(item));
       })
     },
   },
@@ -18,39 +19,29 @@ export default {
     }
   },
   methods: {
-    goTo(path) {
-      window.location.href = path;
-    },
-    moduleCaps(module){
-      let caps = []
-      module.chipsets.forEach(chipset => {
-        chipset.caps.forEach(cap => {
-          if(!caps.includes(cap)) caps.push(cap)
-          if(!this.allCaps.includes(cap)) this.allCaps.push(cap)
-        })
-      })
-      return caps;
-    },
-    capIcon(cap){
-      let icon = {name: 'mdi-help', color: 'grey'}
-      if(cap === "humidity") icon = {name: 'mdi-water-percent', color: 'blue'}
-      else if(cap === "temperature") icon = {name: 'mdi-thermometer', color: 'red'}
-      else if(cap === "pressure") icon = {name: 'mdi-car-brake-low-pressure', color: 'green'}
-      else if(cap === "brightness") icon = {name: 'mdi-lightbulb-on-outline', color: 'yellow'}
-      return icon
-    }
-  }
+    ...mapActions(['goTo'])
+  },
+  created() {
+    this.allCaps = this.getAllCaps();
+  },
 }
 </script>
 
 <template>
   <div>
     <div class="container">
+      <v-btn
+          @click="goTo('/')"
+          icon="mdi-arrow-left-thick"
+          size="x-small"
+          variant="text"
+      />
       <h1>Modules</h1>
       <v-btn
           @click="showFilter = !showFilter;"
-          :icon="showFilter ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+          :icon="showFilter ? 'mdi-filter-off' : 'mdi-filter-menu'"
           size="x-small"
+          color="primary"
       />
     </div>
     <div class="filters" v-if="showFilter">
@@ -85,14 +76,14 @@ export default {
         </v-card-item>
         <v-card-text>
           <v-btn
-              v-for="cap in moduleCaps(module)"
+              v-for="cap in getModuleCaps(module)"
               size="small"
               rounded
               variant="text"
           >
             <v-icon
-                :icon="capIcon(cap).name"
-                :color="capIcon(cap).color"
+                :icon="getCapIcon(cap).name"
+                :color="getCapIcon(cap).color"
             />
             <v-tooltip
                 activator="parent"

@@ -17,6 +17,36 @@ export default {
             state.measures = [];
         }
     },
+    getters: {
+        getAllCaps: (state) => () => {
+            const caps = new Set();
+            state.modules.forEach(module => {
+                module.chipsets.forEach(chipset => {
+                    chipset.caps.forEach(cap => {
+                        caps.add(cap);
+                    });
+                });
+            });
+            return Array.from(caps);
+        },
+        getModuleCaps: (state) => (module) => {
+            let caps = [];
+            module.chipsets.forEach(chipset => {
+                chipset.caps.forEach(cap => {
+                    if (!caps.includes(cap)) caps.push(cap);
+                });
+            });
+            return caps;
+        },
+        getCapIcon: (state) => (cap) => {
+            let icon = {name: 'mdi-help', color: 'grey'}
+            if(cap === "humidity") icon = {name: 'mdi-water-percent', color: 'blue'}
+            else if(cap === "temperature") icon = {name: 'mdi-thermometer', color: 'red'}
+            else if(cap === "pressure") icon = {name: 'mdi-car-brake-low-pressure', color: 'green'}
+            else if(cap === "brightness") icon = {name: 'mdi-lightbulb-on-outline', color: 'yellow'}
+            return icon
+        }
+    },
     actions: {
         async getAllModules({ commit }) {
             const data = await getRequest("/module/get", "GET_MODULES");

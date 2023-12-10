@@ -16,8 +16,10 @@ const char* password = "maxime90100";       // Mot de passe WiFi
 const char* serverIP = "192.168.25.17";     // Adresse IP réelle du server car 127.0.0.1 = localhost de la carte elle-même
 const int serverPort = 12345;               // Port du server
 const int requestTimeoutResponse = 10000;   // Temps maximal d'attente de reponse du server
-const int delayBetweenMeasures = 10000;     // Temps d'attente entre chaque mesure
+const int delayBetweenMeasures = 60000;     // Temps d'attente entre chaque mesure
 String key = "";                            // key du module (initialisée lors de la connexion au server)
+
+const int photoresistorPin = 35;
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "pool.ntp.org");
@@ -59,13 +61,18 @@ void loop() {
     BME280::TempUnit tempUnit(BME280::TempUnit_Celsius);
     BME280::PresUnit presUnit(BME280::PresUnit_Pa);
     bme.read(pres, temp, hum, tempUnit, presUnit);
+
+    // Mesure de Ky018
+    int brightnessValue = analogRead(photoresistorPin);
   
     // Mise à jour de l'heure
     timeClient.update();
+    String date = getFormattedDateTime();
     
-    storeMeasure("TEMPERATURE",String(temp));
-    storeMeasure("HUMIDITE",String(hum));
-    storeMeasure("PRESSION",String(pres));
+    storeMeasure("temperature",String(temp),date);
+    storeMeasure("humidity",String(hum),date);
+    storeMeasure("pressure",String(pres),date);
+    storeMeasure("brightness",String(brightnessValue),date);
     delay(delayBetweenMeasures);
   }
 }
@@ -122,8 +129,7 @@ void registerUc() {
   }
 }
 
-void storeMeasure(String measureType, String value) {
-  String date = "0"; //timeClient.getFormattedTime();
+void storeMeasure(String measureType, String value, String date) {
   String request = String("STOREMEASURE") + " " + measureType + " " + date + " " + value + " " + key;
   sendRequest(request);
 }
@@ -191,4 +197,19 @@ String readDataFromFlashMemory(const String &key) {
 
     file.close();
     return "";
+}
+
+String getFormattedDateTime() {
+  // Get the current time
+  time_t rawTime = timeClient.getEpochTime();
+  struct tm *timeinfo;
+  timeinfo = localtime(&rawTime);
+
+  // Create a formatted string
+  char formattedTime[20]; // "YYYY-MM-DDTHH:mm:ss"
+  sprintf(formattedTime, "%04d-%02d-%02dT%02d:%02d:%02d",
+          timeinfo->tm_year + 1900, timeinfo->tm_mon + 1, timeinfo->tm_mday,
+          (timeinfo->tm_hour + 2) % 24, timeinfo->tm_min, timeinfo->tm_sec); // +2 = offset de 2h
+
+  return String(formattedTime);
 }
