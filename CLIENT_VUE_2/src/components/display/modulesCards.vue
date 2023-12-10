@@ -65,7 +65,12 @@ export default {
       />
     </div>
     <div class="cards-container">
-      <v-card v-for="module in filteredModules" :key="module.key" class="card" >
+      <v-card
+          v-for="module in filteredModules"
+          :key="module.key"
+          class="card"
+          v-on:click="goTo('/module/'+module._id)"
+      >
         <v-card-title>{{ module.name }}</v-card-title>
         <v-card-subtitle>{{ module.uc }}</v-card-subtitle>
         <v-card-subtitle>{{ module.key }}</v-card-subtitle>

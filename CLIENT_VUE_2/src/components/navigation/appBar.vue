@@ -9,7 +9,13 @@ export default {
     popup
   },
   computed:{
-    ...mapState(['currentTheme','user'])
+    ...mapState(['currentTheme','user']),
+    getLogoPath(){
+      let path = "src/assets/images/"
+      if(this.currentTheme.dark) path += "logo_light.webp"
+      else path += "logo_dark.webp"
+      return path
+    }
   },
   methods:{
     ...mapMutations(['setTheme']),
@@ -32,11 +38,11 @@ export default {
       <template v-slot:prepend>
         <v-avatar
             rounded="0"
-            image="src/assets/images/logo.png"
+            :image="getLogoPath"
         />
       </template>
 
-      <v-app-bar-title>Basic App</v-app-bar-title>
+      <v-app-bar-title>Météo Belfort</v-app-bar-title>
 
       <template v-slot:append>
         <v-btn
