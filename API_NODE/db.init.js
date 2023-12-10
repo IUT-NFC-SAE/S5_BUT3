@@ -8,6 +8,7 @@ const SALT_WORK_FACTOR = 10;
 // two chipsets are initialized
 let lm35 = null;
 let bme280 = null;
+let ky018 = null;
 
 async function initChipsets() {
   try {
@@ -17,6 +18,7 @@ async function initChipsets() {
         name: "lm35",
         description: "temperature sensor",
         links: ["https://arduino-france.site/capteur-lm35/"],
+        image: "https://www.gotronic.fr/ori-capteur-de-t-lm35-gravity-dfr0023-19287.jpg",
         caps: ["temperature"],
       })
       lm35 = await lm35.save()
@@ -32,10 +34,27 @@ async function initChipsets() {
         name: "bme280",
         description: "temperature/humidity/pressure sensor",
         links: ["https://passionelectronique.fr/tutorial-bme280/"],
+        image: "https://i.ebayimg.com/images/g/XnQAAOSwlfldl0TK/s-l1200.webp",
         caps: ["temperature", "humidity", "pressure"],
       })
       bme280 = await bme280.save()
       console.log("added bme280 chipset");
+    }
+  } catch (err) {
+    console.log("cannot add bme280 chipset", err)
+  }
+  try {
+    ky018 = await Chipset.findOne({name: 'ky018'}).exec()
+    if (ky018 === null) {
+      ky018 = new Chipset({
+        name: "ky018",
+        description: "brightness sensor",
+        links: ["https://sensorkit.joy-it.net/fr/sensors/ky-018"],
+        image: "https://www.picclickimg.com/nDcAAOSw1lxcwwFN/Module-Photoresistance-Ldr-Photoelectrique-KY-018-Capteur-de-Lumiere.webp",
+        caps: ["brightness"],
+      })
+      ky018 = await ky018.save()
+      console.log("added ky018 chipset");
     }
   } catch (err) {
     console.log("cannot add bme280 chipset", err)
@@ -69,7 +88,7 @@ async function initModules() {
         shortname: "mod2",
         key: "2e46990d-3e85-45f8-82c8-f05eec1a1212",
         uc: "esp8266",
-        chipsets: [ bme280._id],
+        chipsets: [ lm35._id],
       })
       mod2 = await mod2.save()
       console.log("added module 2");

@@ -40,7 +40,7 @@ const app = express();
 
 const corsOptions = {
     methods: 'GET,POST,PUT,PATCH,DELETE',
-    origin: [ /.*$/ ],
+    origin: '*',
     allowedHeaders: "x-session-id, Origin, Content-Type, Accept",
     credentials: true,
 };
@@ -62,7 +62,7 @@ DbInint.initBdD()
 
 // define pre-processing: CORS, parsing JSON, ...
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

@@ -291,7 +291,7 @@ const getModules = async function (req, res, next) {
   console.log('get modules');
   let modules = null
   try {
-    modules = await Module.find({}).exec();
+    modules = await Module.find({}).populate('chipsets').exec();
   }
   catch(err) {
     answer.set(ModuleErrors.getError(ModuleErrors.ERR_MODULE_INVALID_FIND_REQUEST))

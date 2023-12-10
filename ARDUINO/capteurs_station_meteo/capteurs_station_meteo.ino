@@ -111,7 +111,7 @@ void connectToServer(const char* ip, const int port) {
 
 void registerUc() {
   String uc = "ESP32";
-  String chipsets = "bme280";
+  String chipsets = "bme280 ky018";
   String requestName = "AUTOREGISTER";
   String request = requestName + " " + uc + " " + chipsets;
   String response = sendRequest(request);

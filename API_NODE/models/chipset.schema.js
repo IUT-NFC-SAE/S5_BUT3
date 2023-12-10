@@ -6,6 +6,7 @@ let ChipsetSchema = new Schema({
   name: { type: String, required: true},
   description: { type: String},
   links: [{ type: String}],
+  image: {type: String},
   // caps are what kind of measure/functionnality the chipset is able to
   caps: [ {type: String, required: true} ],
 })
