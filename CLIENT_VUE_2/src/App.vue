@@ -26,6 +26,11 @@ export default {
       <v-main>
         <router-view/>
       </v-main>
+      <v-footer>
+        <v-row justify="center" no-gutters>
+          2024 - IUTBM Informatique BUT3 S5 SAE
+        </v-row>
+      </v-footer>
     </v-app>
   </div>
 </template>
