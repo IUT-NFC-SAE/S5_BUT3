@@ -52,6 +52,7 @@ export default {
             :icon="currentTheme.dark ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny'"
         ></v-btn>
         <v-menu
+            v-if="user"
             min-width="200px"
             rounded
         >
@@ -69,9 +70,9 @@ export default {
                 <v-avatar
                     color="primary"
                 >
-                  <span class="text-h5">U</span>
+                  <span class="text-h5">{{ user.name[0].toUpperCase() }}</span>
                 </v-avatar>
-                <h3>Username</h3>
+                <h3>{{ user.name.toLowerCase() }}</h3>
                 <v-divider class="my-3"></v-divider>
                 <v-btn
                     @click="logout"
