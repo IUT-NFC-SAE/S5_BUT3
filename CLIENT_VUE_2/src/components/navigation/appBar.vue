@@ -1,6 +1,6 @@
 <script>
 import index from "@/plugins/vuetify";
-import {mapMutations, mapState} from "vuex";
+import {mapActions, mapMutations, mapState} from "vuex";
 import popup from "@/components/informations/popup.vue";
 import store from "@/store";
 
@@ -18,6 +18,7 @@ export default {
     }
   },
   methods:{
+    ...mapActions(['goTo']),
     ...mapMutations(['setTheme']),
     toggleTheme(){
       index.theme.global.name.value = index.theme.global.current.value.dark ? 'lightTheme' : 'darkTheme';
@@ -39,6 +40,7 @@ export default {
         <v-avatar
             rounded="0"
             :image="getLogoPath"
+            @click="goTo('/')"
         />
       </template>
 
@@ -50,7 +52,6 @@ export default {
             :icon="currentTheme.dark ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny'"
         ></v-btn>
         <v-menu
-            v-if="user"
             min-width="200px"
             rounded
         >
@@ -59,11 +60,7 @@ export default {
                 icon
                 v-bind="props"
             >
-              <v-avatar
-                  color="secondary"
-              >
-                <span class="text-h5">{{ user.username[0].toUpperCase() }}</span>
-              </v-avatar>
+              <v-icon>mdi-account</v-icon>
             </v-btn>
           </template>
           <v-card>
@@ -72,9 +69,9 @@ export default {
                 <v-avatar
                     color="primary"
                 >
-                  <span class="text-h5">{{ user.username[0].toUpperCase() }}</span>
+                  <span class="text-h5">U</span>
                 </v-avatar>
-                <h3>{{ user.username.toLowerCase() }}</h3>
+                <h3>Username</h3>
                 <v-divider class="my-3"></v-divider>
                 <v-btn
                     @click="logout"
