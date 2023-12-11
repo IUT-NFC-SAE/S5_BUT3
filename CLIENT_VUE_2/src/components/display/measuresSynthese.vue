@@ -18,14 +18,17 @@ export default {
 </template>
 
 <style scoped>
-.container{
+.container {
   background-image: url("../../assets/images/nuages.jpg");
+  background-size: cover;
+  background-position: center;
   width: 90vw;
   height: 50vh;
   margin-left: 5vw;
   border-radius: 20px;
   padding: 20px;
 }
+
 .row{
   display: flex;
   justify-content: left;
