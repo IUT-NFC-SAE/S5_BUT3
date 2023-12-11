@@ -97,10 +97,10 @@ async function initModules() {
     console.log("cannot add module 2", err)
   }
   // Assuming you have a function to create a fake measure
-  async function createFakeMeasure(module, type, value) {
+  async function createFakeMeasure(module, type, value, date) {
     const measure = new Measure({
       type: type,
-      date: new Date(),
+      date: date,
       value: value,
       module: module._id,
     });
@@ -108,13 +108,15 @@ async function initModules() {
   }
 
   // Add fake temperature, humidity, and pressure measures for module 1
-  await createFakeMeasure(mod1, 'temperature', '25.5');
-  await createFakeMeasure(mod1, 'humidity', '50');
-  await createFakeMeasure(mod1, 'pressure', '1013.25');
+  let date = new Date();
+  await createFakeMeasure(mod1, 'temperature', '25.5',date);
+  await createFakeMeasure(mod1, 'humidity', '50',date);
+  await createFakeMeasure(mod1, 'pressure', '1013.25',date);
 
   // Add fake temperature measures for module 2
-  await createFakeMeasure(mod2, 'temperature', '22.3');
-  await createFakeMeasure(mod2, 'temperature', '22.5');
+  await createFakeMeasure(mod2, 'temperature', '22.3',date);
+  date = new Date();
+  await createFakeMeasure(mod2, 'temperature', '22.5',date);
 }
 
 async function initUsers() {
