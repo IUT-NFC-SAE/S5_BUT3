@@ -62,6 +62,9 @@ export default {
                 const data = await getRequest(path, "GET_MEASURES")
                 if(!data.error) commit('setMeasures', data.data);
             }
+        },
+        async getMeanTemperature(){
+            return 12.3
         }
     }
 }
