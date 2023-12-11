@@ -2,6 +2,7 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import popupModule from "@/store/modules/popup.module";
 import databaseModule from "@/store/modules/database.module";
+import toolsModule from "@/store/modules/tools.module";
 import router from "@/router";
 
 const store = new Vuex.Store({
@@ -31,7 +32,8 @@ const store = new Vuex.Store({
     },
     modules: {
         popupModule,
-        databaseModule
+        databaseModule,
+        toolsModule
     },
     plugins: [createPersistedState()],
 });
