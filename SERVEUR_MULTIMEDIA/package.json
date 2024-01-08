@@ -1,0 +1,14 @@
+{
+  "name": "serveur_multimedia",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "multer": "^1.4.5-lts.1"
+  }
+}
