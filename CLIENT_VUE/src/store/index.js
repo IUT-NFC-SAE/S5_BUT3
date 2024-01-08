@@ -28,8 +28,8 @@ export default new Vuex.Store({
           login: user.login,
           password: user.password,
         });
-        const token = response.data.token;
-        console.log(token);
+        const token = response.data.data.token;
+        console.log(response);
         commit('setAuthToken', token);
         return token; // Return the token for potential further use
       } catch (error) {

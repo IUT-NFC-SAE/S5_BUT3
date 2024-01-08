@@ -1,9 +1,12 @@
 <script>
 import {mapMutations, mapState} from "vuex";
-
+import loginForm from "./LoginForm.vue";
 export default {
   methods:{
     ...mapMutations(['setUser'])
+  },
+  data: {
+    showLogin
   }
 }
 </script>
@@ -11,7 +14,7 @@ export default {
 <template>
   <div>
     <v-btn
-        v-on:click="setUser({name: 'Username', role:'user'})"
+        v-on:click=""
         text="Connexion"
     />
   </div>

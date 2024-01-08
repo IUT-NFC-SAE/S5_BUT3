@@ -1,22 +1,26 @@
 <script>
 import appBar from "@/components/navigation/appBar.vue";
-import {mapMutations, mapState} from "vuex";
-import {useTheme} from "vuetify";
-import Connexion from "@/components/navigation/connexion.vue";
+import { mapMutations, mapState } from "vuex";
+import { useTheme } from "vuetify";
+import LoginForm from "@/components/navigation/LoginForm.vue";
+
 export default {
-  components:{
-    Connexion,
-    appBar
+  components: {
+    appBar,
+    LoginForm,
   },
   beforeMount() {
     const theme = useTheme().global.current.value;
     this.setTheme(theme);
   },
-  computed:{
-    ...mapState(['currentTheme','user'])
+  computed: {
+    ...mapState(['currentTheme', 'user'])
   },
-  methods:{
-    ...mapMutations(['setTheme'])
+  methods: {
+    ...mapMutations(['setTheme']),
+    toggleLoginForm() {
+      this.$refs.loginForm.toggleLoginModal(); // Call the method in the LoginForm component
+    }
   }
 }
 </script>
@@ -24,10 +28,11 @@ export default {
 <template>
   <div id="app">
     <v-app>
-      <appBar/>
+      <appBar />
       <v-main>
-        <router-view v-if="user"/>
-        <connexion v-else/>
+        <router-view v-if="user" />
+        <v-btn @click="toggleLoginForm" text="Connexion" />
+        <LoginForm ref="loginForm" />
       </v-main>
       <v-footer>
         <v-row justify="center" no-gutters>
@@ -39,5 +44,5 @@ export default {
 </template>
 
 <style scoped>
-
+/* Add any styling if needed */
 </style>
