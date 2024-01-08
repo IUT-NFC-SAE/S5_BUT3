@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const multer  = require('multer');
 const upload = multer({ dest: './images/' });
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.post('/upload', upload.single('photo'), (req, res) => {
     console.log(req.file);
