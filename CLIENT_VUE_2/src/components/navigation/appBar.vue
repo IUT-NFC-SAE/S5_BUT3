@@ -21,15 +21,10 @@ export default {
   methods:{
     ...mapActions(['goTo']),
     ...mapMutations(['setTheme']),
-    ...mapMutations('userModule', ['clearUser']),
+    ...mapMutations('userModule', ['signOut']),
     toggleTheme(){
       index.theme.global.name.value = index.theme.global.current.value.dark ? 'lightTheme' : 'darkTheme';
       this.setTheme(index.theme.global.current.value);
-    },
-    async logout(){
-      localStorage.removeItem('user');
-      this.clearUser()
-      store.commit('popupModule/setSuccess','Utilisateur déconnecté')
     }
   }
 }
@@ -74,12 +69,20 @@ export default {
                 >
                   <span class="text-h5">{{ user.login[0].toUpperCase() }}</span>
                 </v-avatar>
-                <h3>{{ user.login.toLowerCase() }}</h3>
+                <h3 class="ma-2">{{ user.login.toLowerCase() }}</h3>
+                <v-chip
+                    v-for="right in user.rights"
+                    color="secondary"
+                    size="small"
+                >
+                  {{right}}
+                </v-chip>
                 <v-divider class="my-3"></v-divider>
                 <v-btn
-                    @click="logout"
+                    @click="signOut"
                     text="Déconnexion"
                     rounded
+                    color="secondary"
                     variant="text"
                 />
               </div>

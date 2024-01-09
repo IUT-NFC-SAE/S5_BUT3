@@ -33,12 +33,14 @@ API.interceptors.response.use(
 
 function handleError(serviceName, err) {
     if (err.response) {
-        const error = err.response.data.message
-        store.commit('popupModule/setError',error)
+        const error = err.response.data.data
+
         if(err.response.status === 401){
             // Token de connexion expiré
             store.commit('clearUser');
         }
+
+        store.commit('popupModule/setError',err.response.data.data)
         return {
             data: {
                 error: 1,

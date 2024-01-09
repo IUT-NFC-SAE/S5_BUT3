@@ -2,12 +2,10 @@
 import appBar from "@/components/navigation/appBar.vue";
 import { mapMutations, mapState } from "vuex";
 import { useTheme } from "vuetify";
-import LoginForm from "@/components/navigation/LoginForm.vue";
 
 export default {
   components: {
-    appBar,
-    LoginForm,
+    appBar
   },
   beforeMount() {
     const theme = useTheme().global.current.value;
@@ -17,10 +15,7 @@ export default {
     ...mapState('userModule', ['user'])
   },
   methods: {
-    ...mapMutations(['setTheme']),
-    toggleLoginForm() {
-      this.$refs.loginForm.toggleLoginModal(); // Call the method in the LoginForm component
-    }
+    ...mapMutations(['setTheme'])
   }
 }
 </script>
@@ -30,9 +25,7 @@ export default {
     <v-app>
       <appBar />
       <v-main>
-        <router-view v-if="user" />
-        <v-btn v-if="!user" @click="toggleLoginForm" text="Connexion" />
-        <LoginForm ref="loginForm"  />
+        <router-view/>
       </v-main>
       <v-footer>
         <v-row justify="center" no-gutters>
