@@ -20,12 +20,14 @@ const routes = [
         path: '/modules',
         name: 'Modules',
         component: modules,
+        meta: { rights: ['admin'] }
     },
     {
         path: '/module/:id',
         name: 'ModuleDetails',
         component: moduleDetails,
         props: true,
+        meta: { rights: ['admin'] }
     },
     {
         path: '/:catchAll(.*)',
@@ -38,17 +40,26 @@ const router = createRouter({
     routes,
 });
 
-const checkUser = (to,from,next) => {
-    if (to.path !== '/auth' && !store.state.userModule.user) {
+router.beforeEach((to,from,next) => {
+    const user = store.state.userModule.user
+
+    // Check User Authentication
+    if (to.path !== '/auth' && !user) {
         store.commit('popupModule/setError', "L'utilisateur n'est pas authentifié !")
         next('/auth');
-    } else if(to.path === '/auth' && store.state.userModule.user) {
-        next('/');
-    } else {
-        next();
     }
-}
+    if(to.path === '/auth' && user) next('/');
 
-router.beforeEach(checkUser);
+    // Check User Rights
+    if(to.meta.rights){
+        const hasAllRights = to.meta.rights.every(right => user.rights.includes(right));
+        if(!hasAllRights) {
+            store.commit('popupModule/setError', `Vous n'avez pas les droits requis [${to.meta.rights.toString()}]`)
+            next('/')
+        }
+    }
+
+    next()
+});
 
 export default router;

@@ -39,15 +39,25 @@ export default {
             :image="getLogoPath"
             @click="goTo('/')"
         />
-      </template>
+        <h4 class="ml-2 mr-10">Météo Belfort</h4>
 
-      <v-app-bar-title>Météo Belfort</v-app-bar-title>
+        <div v-if="user && user.rights.includes('admin')">
+          <v-btn
+              v-on:click="goTo('/modules')"
+              variant="outlined"
+              color="secondary"
+              prepend-icon="mdi-view-module"
+              text="modules"
+              size="small"
+          />
+        </div>
+      </template>
 
       <template v-slot:append>
         <v-btn
             @click="toggleTheme"
             :icon="currentTheme.dark ? 'mdi-moon-waning-crescent' : 'mdi-white-balance-sunny'"
-        ></v-btn>
+        />
         <v-menu
             v-if="user"
             min-width="200px"

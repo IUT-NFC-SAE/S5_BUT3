@@ -54,16 +54,6 @@ export default {
     </div>
 
     <br/>
-
-    <v-btn
-        v-on:click="goTo('/modules')"
-        text="Modules Météorologiques"
-        append-icon="mdi-arrow-right"
-        color="primary"
-        width="90vw"
-        style="margin-left: 5vw"
-        height="100px"
-    />
   </div>
 </template>
 
