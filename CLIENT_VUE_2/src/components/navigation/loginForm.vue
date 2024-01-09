@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
     data() {
@@ -37,6 +37,8 @@ export default {
     },
     methods: {
         ...mapActions("userModule", ["loginUser"]),
+        ...mapGetters("userModule", ["processedAuthToken"]),
+        ...mapGetters("userModule", ["getUser"]),
         closeModal() {
             this.showLoginModal = false; // Close the login form
         },
@@ -52,8 +54,10 @@ export default {
                     login: this.login,
                     password: this.password,
                 });
-
+                console.log(this.processedAuthToken())
+                console.log(this.getUser())
                 this.$emit('loginSuccess', token);
+                this.closeModal()
             } catch (error) {
                 console.error('Login failed:', error);
             }

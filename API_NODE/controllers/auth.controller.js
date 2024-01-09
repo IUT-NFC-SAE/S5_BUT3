@@ -96,6 +96,7 @@ const signIn = async function (req, res, next) {
   let jwttoken = jwt.sign({rights: user.rights, token: sessionId}, 'secretkey'); //JWT TOKEN
   answer.setPayload({
     token: jwttoken,
+    user: user
   })
   console.log(jwttoken)
   res.status(200).send(answer);

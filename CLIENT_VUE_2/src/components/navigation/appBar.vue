@@ -12,7 +12,8 @@ export default {
     popup
   },
   computed:{
-    ...mapState(['currentTheme','user']),
+    ...mapState('userModule', ['user']),
+    ...mapState(['currentTheme']),
     getLogoPath(){
       return this.currentTheme.dark ? logo_light : logo_dark
     }
@@ -20,13 +21,14 @@ export default {
   methods:{
     ...mapActions(['goTo']),
     ...mapMutations(['setTheme']),
+    ...mapMutations('userModule', ['clearUser']),
     toggleTheme(){
       index.theme.global.name.value = index.theme.global.current.value.dark ? 'lightTheme' : 'darkTheme';
       this.setTheme(index.theme.global.current.value);
     },
     async logout(){
-      localStorage.removeItem('token');
-      store.commit('clearUser');
+      localStorage.removeItem('user');
+      this.clearUser()
       store.commit('popupModule/setSuccess','Utilisateur déconnecté')
     }
   }
@@ -70,9 +72,9 @@ export default {
                 <v-avatar
                     color="primary"
                 >
-                  <span class="text-h5">{{ user.name[0].toUpperCase() }}</span>
+                  <span class="text-h5">{{ user.login[0].toUpperCase() }}</span>
                 </v-avatar>
-                <h3>{{ user.name.toLowerCase() }}</h3>
+                <h3>{{ user.login.toLowerCase() }}</h3>
                 <v-divider class="my-3"></v-divider>
                 <v-btn
                     @click="logout"

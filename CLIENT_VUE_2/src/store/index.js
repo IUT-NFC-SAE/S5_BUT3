@@ -9,7 +9,7 @@ import router from "@/router";
 const store = new Vuex.Store({
     state: {
         currentTheme: null,
-        user: null
+        user: null,
     },
     mutations: {
         setTheme(state, theme) {

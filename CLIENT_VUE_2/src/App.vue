@@ -14,7 +14,7 @@ export default {
     this.setTheme(theme);
   },
   computed: {
-    ...mapState(['currentTheme', 'user'])
+    ...mapState('userModule', ['user'])
   },
   methods: {
     ...mapMutations(['setTheme']),
@@ -31,8 +31,8 @@ export default {
       <appBar />
       <v-main>
         <router-view v-if="user" />
-        <v-btn @click="toggleLoginForm" text="Connexion" />
-        <LoginForm ref="loginForm" />
+        <v-btn v-if="!user" @click="toggleLoginForm" text="Connexion" />
+        <LoginForm ref="loginForm"  />
       </v-main>
       <v-footer>
         <v-row justify="center" no-gutters>
