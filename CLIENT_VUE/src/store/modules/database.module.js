@@ -63,8 +63,15 @@ export default {
                 if(!data.error) commit('setMeasures', data.data);
             }
         },
-        async getMeanTemperature(){
-            return 12.3
+        async getMeanValue({ state, dispatch }, type){
+            let meanValue = 0
+            const keys = state.modules.map(module => module.key)
+            for (const key of keys) {
+                await dispatch('getMeasures', { key: key, type: type });
+                const lastValue = state.measures[state.measures.length - 1]
+                if(lastValue) meanValue += parseInt(lastValue.value)
+            }
+            return meanValue / keys.length
         }
     }
 }
