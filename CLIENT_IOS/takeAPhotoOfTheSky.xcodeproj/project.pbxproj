@@ -11,6 +11,7 @@
 		6C0952CF2B21F77C0026EBE6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C0952CE2B21F77C0026EBE6 /* ContentView.swift */; };
 		6C0952D12B21F77F0026EBE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C0952D02B21F77F0026EBE6 /* Assets.xcassets */; };
 		6C0952D52B21F77F0026EBE6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6C0952D42B21F77F0026EBE6 /* Preview Assets.xcassets */; };
+		6CBD9F1E2B4E9FA800F9A895 /* ThreeDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBD9F1D2B4E9FA800F9A895 /* ThreeDButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		6C0952D42B21F77F0026EBE6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		6C0952DB2B21FE2C0026EBE6 /* Info.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Info.xcprivacy; sourceTree = "<group>"; };
 		6C0952DC2B2200140026EBE6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		6CBD9F1D2B4E9FA800F9A895 /* ThreeDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreeDButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,9 +56,9 @@
 		6C0952CB2B21F77C0026EBE6 /* takeAPhotoOfTheSky */ = {
 			isa = PBXGroup;
 			children = (
+				6CBD9F1C2B4E9F9000F9A895 /* Views */,
 				6C0952DC2B2200140026EBE6 /* Info.plist */,
 				6C0952CC2B21F77C0026EBE6 /* takeAPhotoOfTheSkyApp.swift */,
-				6C0952CE2B21F77C0026EBE6 /* ContentView.swift */,
 				6C0952D02B21F77F0026EBE6 /* Assets.xcassets */,
 				6C0952D22B21F77F0026EBE6 /* takeAPhotoOfTheSky.entitlements */,
 				6C0952D32B21F77F0026EBE6 /* Preview Content */,
@@ -71,6 +73,15 @@
 				6C0952D42B21F77F0026EBE6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		6CBD9F1C2B4E9F9000F9A895 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6C0952CE2B21F77C0026EBE6 /* ContentView.swift */,
+				6CBD9F1D2B4E9FA800F9A895 /* ThreeDButton.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -145,6 +156,7 @@
 			files = (
 				6C0952CF2B21F77C0026EBE6 /* ContentView.swift in Sources */,
 				6C0952CD2B21F77C0026EBE6 /* takeAPhotoOfTheSkyApp.swift in Sources */,
+				6CBD9F1E2B4E9FA800F9A895 /* ThreeDButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
