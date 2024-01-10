@@ -16,5 +16,5 @@ COPY . .
 # Exposez le port sur lequel votre application Vue.js écoute
 EXPOSE 8080
 
-# Commande pour lancer l'application en mode production
-CMD ["npm", "run", "serve"]
+# Commande pour lancer l'application
+CMD ["npm", "run", "dev"]

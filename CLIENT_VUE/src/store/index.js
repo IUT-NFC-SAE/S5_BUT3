@@ -1,56 +1,43 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios';
+import Vuex from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import popupModule from "@/store/modules/popup.module";
+import databaseModule from "@/store/modules/database.module";
+import toolsModule from "@/store/modules/tools.module";
+import userModule from "@/store/modules/user.module";
+import router from "@/router";
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-  state: {
-    authToken: null,
-
-  },
-  getters: {
-    processedAuthToken: (state) => {
-    // Perform any processing or transformation here
-      return state.authToken;
+const store = new Vuex.Store({
+    state: {
+        currentTheme: null,
+        user: null,
     },
-  },
-  mutations: {
-    setAuthToken(state, token) {
-      state.authToken = token;
+    mutations: {
+        setTheme(state, theme) {
+            state.currentTheme = theme;
+            localStorage.setItem('theme', theme.dark ? 'darkTheme' : 'lightTheme');
+        },
+        setUser(state, user) {
+            state.user = user;
+        },
+        clearUser(state){
+            state.user = null;
+        }
     },
-  },
-  actions: {
-    async loginUser({ commit }, user) {
-      console.log("test ");
-      try {
-        const response = await axios.post('http://localhost:4567/weatherapi/auth/signin', {
-          login: user.login,
-          password: user.password,
-        });
-        const token = response.data.data.token;
-        console.log(response);
-        commit('setAuthToken', token);
-        return token; // Return the token for potential further use
-      } catch (error) {
-        console.error('Login failed:', error);
-        throw error; // Re-throw the error for the component to handle
-      }
+    actions: {
+        goTo(context, path) {
+            router.push(path);
+        },
     },
-    /*async getMeasure({commit}, ){
-      console.log("getMeasure")
-      try {
-        const response = await axios.get('http://localhost:4567/weatherapi/measure/get', {
+    getters: {
 
-        })
-        const measures = response.data.measures;
+    },
+    modules: {
+        popupModule,
+        databaseModule,
+        toolsModule,
+        userModule
+    },
+    plugins: [createPersistedState()],
+});
 
-      } catch (error) {
-        console.error('Get Measure failed:', error);
-        throw error; // Re-throw the error for the component to handle
-      }
-    },*/
-  },
-  modules: {
-  }
-})
+export default store;
