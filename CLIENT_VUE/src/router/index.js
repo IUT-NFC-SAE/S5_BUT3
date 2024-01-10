@@ -1,37 +1,65 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import AppVue from '@/App.vue'
-import LoginView from '@/views/LoginView.vue'
-import StatsView from '@/views/StatsView.vue'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHistory } from 'vue-router';
+import home from "@/views/home.vue";
+import moduleDetails from "@/views/moduleDetails.vue";
+import modules from "@/views/modules.vue";
+import authentication from "@/views/authentication.vue";
+import store from '@/store';
 
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component:  {AppVue}
-  },
-  {
-    path: '/about',
-    name: 'about',
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: LoginView
-  },
-  {
-    path: '/stats',
-    name: 'stats',
-    component: StatsView
-  },
-]
+    {
+        path: '/',
+        name: 'Home',
+        component: home,
+    },
+    {
+        path: '/auth',
+        name: 'Authentication',
+        component: authentication,
+    },
+    {
+        path: '/modules',
+        name: 'Modules',
+        component: modules,
+        meta: { rights: ['admin'] }
+    },
+    {
+        path: '/module/:id',
+        name: 'ModuleDetails',
+        component: moduleDetails,
+        props: true,
+        meta: { rights: ['admin'] }
+    },
+    {
+        path: '/:catchAll(.*)',
+        redirect: '/',
+    },
+];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
 
-export default router
+router.beforeEach((to,from,next) => {
+    const user = store.state.userModule.user
+
+    // Check User Authentication
+    if (to.path !== '/auth' && !user) {
+        store.commit('popupModule/setError', "L'utilisateur n'est pas authentifié !")
+        next('/auth');
+    }
+    if(to.path === '/auth' && user) next('/');
+
+    // Check User Rights
+    if(to.meta.rights){
+        const hasAllRights = to.meta.rights.every(right => user.rights.includes(right));
+        if(!hasAllRights) {
+            store.commit('popupModule/setError', `Vous n'avez pas les droits requis [${to.meta.rights.toString()}]`)
+            next('/')
+        }
+    }
+
+    next()
+});
+
+export default router;

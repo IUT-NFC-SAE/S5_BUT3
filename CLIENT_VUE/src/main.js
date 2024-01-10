@@ -1,13 +1,18 @@
-import Vue from 'vue'
-import App from './App.vue'
-import vuetify from './plugins/vuetify'
-import router from './router/index';
-import store from './store'; 
-Vue.config.productionTip = false
+import './assets/styles/main.css';
+import { createApp } from 'vue';
+import App from './App.vue';
+import vuetify from "@/plugins/vuetify";
+import router from "@/router";
+import store from "@/store";
+import VueCookies from "vue-cookies";
 
-new Vue({
-  vuetify,
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+const app = createApp(App);
+
+app.use(vuetify);
+app.use(router);
+app.use(store);
+app.use(VueCookies);
+
+store.commit('setTheme', vuetify.theme.global.current.value);
+
+app.mount('#app');
