@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from "@/store";
 
 const API = axios.create({
-    baseURL: "http://127.0.0.1:4567/weatherapi"
+    baseURL: "http://127.0.0.1:3000/weatherapi"
 });
 
 API.interceptors.request.use(
