@@ -86,6 +86,7 @@ public class HttpDataDriver implements DataDriver {
         return "HttpDataDriver can't save image analysis yet. Use MongoDataDriver";
     }
 
+
     public synchronized  String saveMeasure(String type, String date, String value, String moduleKey) {
 
         String payload = "{\"type\": \""+type+"\", \"date\": \""+date+"\", \"value\": \""+value+"\", \"moduleKey\": \""+moduleKey+"\"}";
