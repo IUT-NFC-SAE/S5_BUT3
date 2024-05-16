@@ -92,7 +92,6 @@ public class HttpDataDriver implements DataDriver {
         return sendMeasure(payload);
     }
 
-
     private String sendMeasure(String payload) {
         Document doc = postRequest("/measure/create", payload);
         if (doc == null) {
