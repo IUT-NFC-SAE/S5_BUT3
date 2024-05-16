@@ -81,15 +81,14 @@ public class HttpDataDriver implements DataDriver {
         return "OK "+name+","+shortname+","+key;
     }
 
+    @Override
+    public String saveImageAnalysis(String date, String value, Double percent) {
+        return "HttpDataDriver can't save image analysis yet. Use MongoDataDriver";
+    }
+
     public synchronized  String saveMeasure(String type, String date, String value, String moduleKey) {
 
         String payload = "{\"type\": \""+type+"\", \"date\": \""+date+"\", \"value\": \""+value+"\", \"moduleKey\": \""+moduleKey+"\"}";
-        return sendMeasure(payload);
-    }
-
-    public synchronized String saveAnalysis(String type, String date, String value) {
-
-        String payload = "{\"type\": \""+type+"\", \"date\": \""+date+"\", \"value\": \""+value+"\"}";
         return sendMeasure(payload);
     }
 

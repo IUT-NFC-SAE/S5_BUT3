@@ -27,6 +27,7 @@ public class MongoDataDriver implements DataDriver {
     private MongoClient mongoClient;
     private MongoDatabase database;
     MongoCollection<Measure> measures;
+    MongoCollection<ImageAnalysis> images;
     MongoCollection<Module> modules;
     MongoCollection<Chipset> chipsets;
 
@@ -40,6 +41,7 @@ public class MongoDataDriver implements DataDriver {
         mongoClient = MongoClients.create(mongoURL);
         try {
             database = mongoClient.getDatabase("weatherapi").withCodecRegistry(pojoCodecRegistry);
+            images = database.getCollection("images", ImageAnalysis.class);
             measures = database.getCollection("measures", Measure.class);
             modules = database.getCollection("modules", Module.class);
             chipsets = database.getCollection("chipsets", Chipset.class);
@@ -109,9 +111,9 @@ public class MongoDataDriver implements DataDriver {
         return "OK";
     }
 
-    public synchronized String saveAnalysis(String type, String date, String value) {
-        Measure m = new Measure(type, LocalDateTime.parse(date), value, null);
-        measures.insertOne(m);
+    public synchronized String saveImageAnalysis(String date, String value, Double percent) {
+        ImageAnalysis i = new ImageAnalysis(LocalDateTime.parse(date),value,percent);
+        images.insertOne(i);
         return "OK";
     }
 }

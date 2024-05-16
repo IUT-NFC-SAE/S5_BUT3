@@ -41,7 +41,7 @@ class MainClient  {
 						requestStoreMeasure(parts[1], parts[2]);
 					}
 					else if ("3".equals(parts[0])) {
-						requestStoreAnalysis(parts[1], parts[2]);
+						requestStoreImageAnalysis(parts[1], Double.valueOf(parts[2]));
 					}
 					else if (parts[0].equals("quit")) {
 						stop = true;
@@ -75,13 +75,13 @@ class MainClient  {
 		Logger.println("CLIENT_TCP","MainClient:StoreMeasure",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 	}
 
-	protected void requestStoreAnalysis(String type, String value) throws IOException {
+	protected void requestStoreImageAnalysis(String value, Double percent) throws IOException {
 		String answer="";
-		String req = "STOREANALYSIS "+type+" "+ LocalDateTime.now() +" "+value;
-		Logger.println("CLIENT_TCP","MainClient:StoreAnalysis","process request",req,Logger.Color.CYAN);
+		String req = "STOREIMAGEANALYSIS "+ LocalDateTime.now() +" "+value+" "+percent;
+		Logger.println("CLIENT_TCP","MainClient:StoreImageAnalysis","process request",req,Logger.Color.CYAN);
 		ps.println(req);
 		answer = br.readLine();
-		Logger.println("CLIENT_TCP","MainClient:StoreAnalysis",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
+		Logger.println("CLIENT_TCP","MainClient:StoreImageAnalysis",null,answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 	}
 }
 		

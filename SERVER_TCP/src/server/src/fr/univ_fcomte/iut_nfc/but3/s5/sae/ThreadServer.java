@@ -54,8 +54,8 @@ class ThreadServer extends Thread {
 					else if ("STOREMEASURE".equals(idReq)) {
 						requestStoreMeasure(reqParts);
 					}
-					else if ("STOREANALYSIS".equals(idReq)) {
-						requestStoreAnalysis(reqParts);
+					else if ("STOREIMAGEANALYSIS".equals(idReq)) {
+						requestStoreImageAnalysis(reqParts);
 					}
 				}
 			}
@@ -78,8 +78,6 @@ class ThreadServer extends Thread {
 			ps.println("ERR invalid number of parameters");
 			return;
 		}
-		// (un)comment to choose direct mongo access or through the node API
-		//String answer = exchanger.getMongoDriver().autoRegisterModule(params[1], lst);
 		String answer = exchanger.getHttpDriver().autoRegisterModule(params[1], lst);
 		Logger.println("SERVER_TCP","ThreadServer:AutoRegister","response",answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 		ps.println(answer);
@@ -92,24 +90,20 @@ class ThreadServer extends Thread {
 			ps.println("ERR invalid number of parameters");
 			return;
 		}
-		// (un)comment to choose direct mongo access or through the node API
-		//String answer = exchanger.getMongoDriver().saveMeasure(params[1], params[2], params[3], params[4]);
 		String answer = exchanger.getHttpDriver().saveMeasure(params[1], params[2], params[3], params[4]);
 		Logger.println("SERVER_TCP","ThreadServer:StoreMeasure","response",answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 		ps.println(answer);
 	}
 
-	protected void requestStoreAnalysis(String[] params) throws IOException {
-		Logger.println("SERVER_TCP","ThreadServer:StoreAnalysis","processing request","STORE ANALYSIS", Logger.Color.CYAN);
+	protected void requestStoreImageAnalysis(String[] params) throws IOException {
+		Logger.println("SERVER_TCP","ThreadServer:StoreImageAnalysis","processing request","STORE IMAGE ANALYSIS", Logger.Color.CYAN);
 
 		if (params.length != 4) {
 			ps.println("ERR invalid number of parameters");
 			return;
 		}
-		// (un)comment to choose direct mongo access or through the node API
-		String answer = exchanger.getMongoDriver().saveAnalysis(params[1], params[2], params[3]);
-		//String answer = exchanger.getHttpDriver().saveAnalysis(params[1], params[2], params[3]);
-		Logger.println("SERVER_TCP","ThreadServer:StoreAnalysis","response",answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
+		String answer = exchanger.getMongoDriver().saveImageAnalysis(params[1], params[2], Double.valueOf(params[3]));
+		Logger.println("SERVER_TCP","ThreadServer:StoreImageAnalysis","response",answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 		ps.println(answer);
 	}
 
