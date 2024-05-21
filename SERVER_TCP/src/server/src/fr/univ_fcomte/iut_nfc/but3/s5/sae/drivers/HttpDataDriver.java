@@ -1,5 +1,7 @@
-package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+package fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers;
 
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers.DataDriver;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
 import org.bson.Document;
 
 import java.net.*;
@@ -91,7 +93,6 @@ public class HttpDataDriver implements DataDriver {
         String payload = "{\"type\": \""+type+"\", \"date\": \""+date+"\", \"value\": \""+value+"\", \"moduleKey\": \""+moduleKey+"\"}";
         return sendMeasure(payload);
     }
-
 
     private String sendMeasure(String payload) {
         Document doc = postRequest("/measure/create", payload);

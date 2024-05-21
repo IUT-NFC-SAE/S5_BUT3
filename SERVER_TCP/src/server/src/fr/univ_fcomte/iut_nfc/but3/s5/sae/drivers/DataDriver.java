@@ -1,4 +1,4 @@
-package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+package fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers;
 
 import java.util.List;
 

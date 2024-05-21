@@ -1,9 +1,14 @@
-package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+package fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers.DataDriver;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.models.Chipset;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.models.ImageAnalysis;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.models.Measure;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.models.Module;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;

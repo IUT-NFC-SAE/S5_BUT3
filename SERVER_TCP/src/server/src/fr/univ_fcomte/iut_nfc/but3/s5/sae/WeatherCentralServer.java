@@ -1,5 +1,6 @@
 package fr.univ_fcomte.iut_nfc.but3.s5.sae;
 
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
 import io.github.cdimascio.dotenv.Dotenv;
 import java.io.*;
 

@@ -1,5 +1,8 @@
 package fr.univ_fcomte.iut_nfc.but3.s5.sae;
 
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers.DataExchanger;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
+
 import java.io.*;
 import java.net.*;
 

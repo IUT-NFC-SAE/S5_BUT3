@@ -1,8 +1,9 @@
-package fr.univ_fcomte.iut_nfc.but3.s5.sae;
-class DataExchanger {
+package fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers;
 
-	private DataDriver httpDriver;
-	private DataDriver mongoDriver;
+public class DataExchanger {
+
+	private final DataDriver httpDriver;
+	private final DataDriver mongoDriver;
 
 	public DataExchanger(String apiURL, String mongoURL ) {
 		httpDriver = new HttpDataDriver(apiURL);

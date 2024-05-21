@@ -1,9 +1,8 @@
-package fr.univ_fcomte.iut_nfc.but3.s5.sae;
+package fr.univ_fcomte.iut_nfc.but3.s5.sae.models;
 
 import org.bson.types.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class Measure {
 
