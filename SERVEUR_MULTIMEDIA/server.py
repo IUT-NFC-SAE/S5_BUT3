@@ -3,77 +3,27 @@ import os
 import shutil
 import cv2
 import numpy as np
+import PIL
+import tensorflow as tf
 
+from tensorflow import keras
+from tensorflow.keras import layers
+from tensorflow.keras.models import Sequential
+
+
+class_names = ['cloudy', 'foggy', 'rainy', 'shine', 'sunrise']
 app = Flask(__name__)
 port = 3000
 
 # Configure Flask to use the /tmp and /images directories
 app.config['UPLOAD_FOLDER'] = '/tmp'
 app.config['IMAGES_FOLDER'] = '/images'
+os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(os.getcwd() + app.config['IMAGES_FOLDER'], exist_ok=True)
 
-def detect_weather(image_path):
-    # Read the image
-    image = cv2.imread(image_path)
-
-    # Convert the image to HSV color space
-    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
-
-    # Define color ranges for different weather conditions
-    sunny_lower = np.array([20, 50, 50])
-    sunny_upper = np.array([40, 255, 255])
-
-    cloudy_lower = np.array([80, 0, 150])
-    cloudy_upper = np.array([160, 80, 255])
-
-    rainy_lower = np.array([100, 50, 50])
-    rainy_upper = np.array([140, 255, 255])
-
-    snowy_lower = np.array([0, 0, 150])
-    snowy_upper = np.array([180, 50, 255])
-
-    # Create masks for different weather conditions
-    mask_sunny = cv2.inRange(hsv, sunny_lower, sunny_upper)
-    mask_cloudy = cv2.inRange(hsv, cloudy_lower, cloudy_upper)
-    mask_rainy = cv2.inRange(hsv, rainy_lower, rainy_upper)
-    mask_snowy = cv2.inRange(hsv, snowy_lower, snowy_upper)
-
-    # Combine the masks
-    mask = cv2.bitwise_or(mask_sunny, cv2.bitwise_or(mask_cloudy, cv2.bitwise_or(mask_rainy, mask_snowy)))
-
-    # Apply the mask to the original image
-    result = cv2.bitwise_and(image, image, mask=mask)
-
-    # Calculate the percentage of pixels for each weather condition
-    total_pixels = np.sum(mask > 0)
-    sunny_pixels = np.sum(mask_sunny > 0)
-    cloudy_pixels = np.sum(mask_cloudy > 0)
-    rainy_pixels = np.sum(mask_rainy > 0)
-    snowy_pixels = np.sum(mask_snowy > 0)
-
-    # Calculate percentages
-    percentage_sunny = (sunny_pixels / total_pixels) * 100 if total_pixels > 0 else 0
-    percentage_cloudy = (cloudy_pixels / total_pixels) * 100 if total_pixels > 0 else 0
-    percentage_rainy = (rainy_pixels / total_pixels) * 100 if total_pixels > 0 else 0
-    percentage_snowy = (snowy_pixels / total_pixels) * 100 if total_pixels > 0 else 0
-
-    # Set thresholds for different weather conditions
-    sunny_threshold = 10
-    cloudy_threshold = 10
-    rainy_threshold = 5
-    snowy_threshold = 5
-
-    # Determine the predominant weather condition
-    if percentage_sunny > sunny_threshold:
-        return "Sunny"
-    elif percentage_cloudy > cloudy_threshold:
-        return "Cloudy"
-    elif percentage_rainy > rainy_threshold:
-        return "Rainy"
-    elif percentage_snowy > snowy_threshold:
-        return "Snowy"
-    else:
-        return "Unknown"
-
+TF_MODEL_FILE_PATH = 'weather_classification_model.tflite'
+interpreter = tf.lite.Interpreter(model_path=TF_MODEL_FILE_PATH)
+classify_lite = interpreter.get_signature_runner('serving_default')
 
 # Route for uploading images
 @app.route('/upload', methods=['POST'])
@@ -92,8 +42,19 @@ def upload_file():
     filepath_here = os.path.join(os.getcwd()+app.config['IMAGES_FOLDER'], file.filename)
     shutil.copy(filepath_tmp, filepath_here)
 
-    weather_condition = detect_weather(os.path.join(os.getcwd()+app.config['IMAGES_FOLDER'], file.filename))
-    print(f'Predicted Weather: {weather_condition}')
+    img = tf.keras.utils.load_img(
+        filepath_here, target_size=(180, 180)
+    )
+
+    img_array = tf.keras.utils.img_to_array(img)
+    img_array = tf.expand_dims(img_array, 0)
+
+    predictions_lite = classify_lite(sequential_1_input=img_array)['outputs']
+    score_lite = tf.nn.softmax(predictions_lite)
+    print(
+        "This image most likely belongs to {} with a {:.2f} percent confidence."
+        .format(class_names[np.argmax(score_lite)], 100 * np.max(score_lite))
+    )
 
     return jsonify({'message': 'Image uploaded successfully'})
 

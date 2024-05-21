@@ -14,7 +14,7 @@ export default {
       {title: 'Température', text:'Température moyenne actuelle', value:`${this.meanTemperatue}°C`, icon:'mdi-thermometer'},
       {title: 'Humidité', text:'Humidité moyenne actuelle', value:`${this.meanHumidity}%`, icon:'mdi-water-percent'},
       {title: 'Pression', text:'Pression atmosphérique moyenne actuelle', value:`${this.meanPressure.toFixed(1)}`, icon:'mdi-car-brake-low-pressure'},
-      {title: 'Luminausité', text:'Luminausité moyenne actuelle', value:`${this.meanBrightness.toFixed(1)}`, icon:'mdi-lightbulb-on-10'},
+      {title: 'Luminosité', text:'Luminosité moyenne actuelle', value:`${this.meanBrightness.toFixed(1)}`, icon:'mdi-lightbulb-on-10'},
     ]
     this.selectedModuleKey = this.modules[0].key
     setInterval(() => {
