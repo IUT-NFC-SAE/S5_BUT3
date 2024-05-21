@@ -1,4 +1,4 @@
-import fr.univ_fcomte.iut_nfc.but3.s5.sae.Logger;
+import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
 
 import java.io.*;
 import java.net.*;
