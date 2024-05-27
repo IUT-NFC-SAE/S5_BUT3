@@ -44,6 +44,21 @@ services:
     networks:
       - network
 
+  servermultimedia:
+    container_name: server_multimedia
+    depends_on:
+      - servertcp
+    environment:
+      SERVER_TCP_HOST: servertcp
+      SERVER_TCP_PORT: 12345
+    build:
+      context: ./SERVEUR_MULTIMEDIA
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    networks:
+      - network
+
   clientvue:
     container_name: client_vue
     depends_on:
