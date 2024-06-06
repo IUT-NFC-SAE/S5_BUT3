@@ -116,8 +116,8 @@ public class MongoDataDriver implements DataDriver {
         return "OK";
     }
 
-    public synchronized String saveImageAnalysis(String date, String value, Double percent) {
-        ImageAnalysis i = new ImageAnalysis(LocalDateTime.parse(date),value,percent);
+    public synchronized String saveImageAnalysis(String date, String value, Double percent, String imagePath) {
+        ImageAnalysis i = new ImageAnalysis(LocalDateTime.parse(date),value,percent,imagePath);
         images.insertOne(i);
         return "OK";
     }

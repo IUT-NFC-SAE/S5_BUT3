@@ -10,13 +10,15 @@ public class ImageAnalysis {
     private LocalDateTime date;
     private String value;
     private Double percent;
+    private String image;
 
     public ImageAnalysis() {}
 
-    public ImageAnalysis(LocalDateTime date, String value, Double percent) {
+    public ImageAnalysis(LocalDateTime date, String value, Double percent, String image) {
         this.date = date;
         this.value = value;
         this.percent = percent;
+        this.image = image;
     }
 
     public ObjectId getId() {
@@ -51,7 +53,11 @@ public class ImageAnalysis {
         this.percent = percent;
     }
 
+    public String getImage() {return image;}
+
+    public void setImage(String path) {this.image = image;}
+
     public String toString() {
-        return id+" "+date+" "+value+" "+percent;
+        return id+" "+date+" "+value+" "+percent+" "+image;
     }
 }

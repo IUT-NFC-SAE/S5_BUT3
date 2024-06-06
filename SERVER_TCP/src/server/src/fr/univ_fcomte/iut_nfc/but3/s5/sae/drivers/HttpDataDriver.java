@@ -1,6 +1,5 @@
 package fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers;
 
-import fr.univ_fcomte.iut_nfc.but3.s5.sae.drivers.DataDriver;
 import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
 import org.bson.Document;
 
@@ -84,7 +83,7 @@ public class HttpDataDriver implements DataDriver {
     }
 
     @Override
-    public String saveImageAnalysis(String date, String value, Double percent) {
+    public String saveImageAnalysis(String date, String value, Double percent, String param) {
         return "HttpDataDriver can't save image analysis yet. Use MongoDataDriver";
     }
 

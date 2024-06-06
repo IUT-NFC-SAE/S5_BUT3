@@ -11,6 +11,6 @@ public interface DataDriver {
     // register a module from its own request
     public String autoRegisterModule(String uc, List<String> chipsets);
     // store image analysis
-    public String saveImageAnalysis(String date, String value, Double percent);
+    public String saveImageAnalysis(String date, String value, Double percent, String param);
 
 }

@@ -6,6 +6,7 @@ import fr.univ_fcomte.iut_nfc.but3.s5.sae.utils.Logger;
 import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 class ThreadServer extends Thread {
@@ -49,6 +50,7 @@ class ThreadServer extends Thread {
 					// Do nothing
 				} else {
 					reqParts = req.split(" ");
+					Logger.println("SERVER_TCP","ThreadServer","request params",Arrays.toString(reqParts), Logger.Color.CYAN);
 					idReq = reqParts[0];
 
 					if ("AUTOREGISTER".equals(idReq)) {
@@ -101,11 +103,11 @@ class ThreadServer extends Thread {
 	protected void requestStoreImageAnalysis(String[] params) throws IOException {
 		Logger.println("SERVER_TCP","ThreadServer:StoreImageAnalysis","processing request","STORE IMAGE ANALYSIS", Logger.Color.CYAN);
 
-		if (params.length != 4) {
+		if (params.length != 5) {
 			ps.println("ERR invalid number of parameters");
 			return;
 		}
-		String answer = exchanger.getMongoDriver().saveImageAnalysis(params[1], params[2], Double.valueOf(params[3]));
+		String answer = exchanger.getMongoDriver().saveImageAnalysis(params[1], params[2], Double.valueOf(params[3]), params[4]);
 		Logger.println("SERVER_TCP","ThreadServer:StoreImageAnalysis","response",answer,answer.startsWith("ERR") ? Logger.Color.RED : Logger.Color.GREEN);
 		ps.println(answer);
 	}
