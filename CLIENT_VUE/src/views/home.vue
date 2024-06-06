@@ -1,15 +1,17 @@
 <script>
 
 import MeasuresSynthese from "@/components/display/measuresSynthese.vue";
+import ImagesAnalyzes from "@/components/display/imagesAnalyzes.vue";
 
 export default {
-  components: {MeasuresSynthese}
+  components: {ImagesAnalyzes, MeasuresSynthese}
 }
 </script>
 
 <template>
   <div>
     <MeasuresSynthese/>
+    <images-analyzes/>
     <div class="offset"></div>
   </div>
 </template>

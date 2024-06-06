@@ -4,7 +4,8 @@ export default {
     namespaced: true,
     state: {
         modules: [],
-        measures: []
+        measures: [],
+        analyzes: []
     },
     mutations: {
         setModules(state, modules) {
@@ -12,6 +13,9 @@ export default {
         },
         setMeasures(state, measures) {
             state.measures = measures;
+        },
+        setAnalyzes(state, analyzes){
+            state.analyzes = analyzes;
         },
         clearMeasures(state){
             state.measures = [];
@@ -62,6 +66,10 @@ export default {
                 const data = await getRequest(path, "GET_MEASURES")
                 if(!data.error) commit('setMeasures', data.data);
             }
+        },
+        async getAllAnalyzes({ commit }) {
+            const data = await getRequest("/analyzes/get", "GET_ANALYZES");
+            if(!data.error) commit('setAnalyzes', data.data);
         },
         async getMeanValue({ state, dispatch }, type){
             let meanValue = 0

@@ -36,6 +36,7 @@ services:
     environment:
       PORT: 3000
       MONGODB_URI: mongodb://bdd_mongo:27017/weatherapi
+      SERVER_MULTIMEDIA_URI: "http://server_multimedia:5000"
     build:
       context: ./API_NODE
       dockerfile: Dockerfile
