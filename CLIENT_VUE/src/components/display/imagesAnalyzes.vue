@@ -4,10 +4,26 @@ import {mapActions, mapState} from "vuex";
 export default {
   name: 'imagesAnalyzes',
   computed:{
-    ...mapState('databaseModule',['analyzes'])
+    ...mapState('databaseModule',['analyzes']),
+    sortedAnalyzes(){
+      return this.analyzes.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
   },
   methods:{
-    ...mapActions('databaseModule',['getAllAnalyzes'])
+    ...mapActions('databaseModule',['getAllAnalyzes']),
+    formatDate(dateStr) {
+      const date = new Date(dateStr);
+
+      const options = {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+
+      return new Intl.DateTimeFormat('fr-FR', options).format(date);
+    }
   },
   beforeMount() {
     this.getAllAnalyzes()
@@ -16,20 +32,47 @@ export default {
 </script>
 
 <template>
-  <div>
-    <v-card
+  <div class="container">
+    <div
         v-if="analyzes.length > 0"
-        v-for="analysis in analyzes"
-        width="200px"
+        class="cards-container"
     >
-      <v-card-title>{{analysis.value}}</v-card-title>
-      <v-card-subtitle>{{analysis.percent}}%</v-card-subtitle>
-      <v-img :src="analysis.image" width="200px"></v-img>
-    </v-card>
-    <h1 v-else class="text-error">No image analyses</h1>
+      <v-hover
+          v-for="analysis in sortedAnalyzes"
+      >
+          <template v-slot:default="{ isHovering, props }">
+            <v-card
+                v-bind="props"
+                :color="undefined"
+            >
+              <v-img
+                  height="200px"
+                  :src="analysis.image"
+                  cover
+              ></v-img>
+              <v-card-title>{{formatDate(analysis.date)}}</v-card-title>
+              <v-card-subtitle>
+                {{analysis.value}}
+                <v-chip density="compact" color="secondary">{{ analysis.percent }} %</v-chip>
+              </v-card-subtitle>
+            </v-card>
+          </template>
+        </v-hover>
+    </div>
+
+    <h3 v-else>Aucune image n'as encore été analysée.</h3>
   </div>
 </template>
 
 <style scoped>
-
+.container{
+  width: 90%;
+  margin-left: 5%;
+}
+.cards-container{
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
 </style>
