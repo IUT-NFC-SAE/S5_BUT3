@@ -11,6 +11,7 @@
     "@mdi/font": "^7.2.96",
     "axios": "^1.6.2",
     "chart.js": "^4.4.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
     "dotenv": "^16.3.1",
     "vue": "^3.3.4",
     "vue-cookies": "^1.8.3",

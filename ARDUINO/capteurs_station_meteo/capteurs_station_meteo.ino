@@ -13,7 +13,7 @@
 
 const char* ssid = "Maxime";                // Nom WiFi
 const char* password = "maxime90100";       // Mot de passe WiFi
-const char* serverIP = "192.168.125.17";    // Adresse IP réelle du server car 127.0.0.1 = localhost de la carte elle-même
+const char* serverIP = "192.168.21.17";     // Adresse IP réelle du server car 127.0.0.1 = localhost de la carte elle-même
 const int serverPort = 12345;               // Port du server
 const int requestTimeoutResponse = 10000;   // Temps maximal d'attente de reponse du server
 const int delayBetweenMeasures = 60000;     // Temps d'attente entre chaque mesure

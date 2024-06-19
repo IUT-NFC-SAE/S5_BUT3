@@ -96,7 +96,7 @@ async function initModules() {
   } catch (err) {
     console.log("cannot add module 2", err)
   }
-  // Assuming you have a function to create a fake measure
+
   async function createFakeMeasure(module, type, value, date) {
     const measure = new Measure({
       type: type,
@@ -107,16 +107,26 @@ async function initModules() {
     return await measure.save();
   }
 
-  // Add fake temperature, humidity, and pressure measures for module 1
-  let date = new Date();
-  await createFakeMeasure(mod1, 'temperature', '25.5',date);
-  await createFakeMeasure(mod1, 'humidity', '50',date);
-  await createFakeMeasure(mod1, 'pressure', '1013.25',date);
+  // Add fake measures
+  let date = new Date('2024-01-01T08:00:00Z');
+  let t1 = 20, t2 = 20;
+  let h = 50;
+  let p = 1000;
 
-  // Add fake temperature measures for module 2
-  await createFakeMeasure(mod2, 'temperature', '22.3',date);
-  date = new Date();
-  await createFakeMeasure(mod2, 'temperature', '22.5',date);
+  for (let i = 0; i < 100; i++) {
+    await createFakeMeasure(mod1, 'temperature', t1, date);
+    await createFakeMeasure(mod2, 'temperature', t2, date);
+    await createFakeMeasure(mod1, 'humidity', h, date);
+    await createFakeMeasure(mod1, 'pressure', p, date);
+
+    // Incrémenter la date de 10 minutes
+    date = new Date(date.getTime() + 10 * 60 * 1000);
+
+    t1 += (Math.random() - 0.5); // Variation aléatoire entre -0.5 et 0.5
+    t2 += (Math.random() - 0.5);
+    h += (Math.random() - 1); // Variation aléatoire entre -1 et 1
+    p += (Math.random() - 0.5) * 5; // Variation aléatoire entre -2.5 et 2.5
+  }
 }
 
 async function initUsers() {

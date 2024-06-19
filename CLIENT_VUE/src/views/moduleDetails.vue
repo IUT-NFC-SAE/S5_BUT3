@@ -7,9 +7,18 @@ export default {
   props:['id'],
   computed:{
     ...mapState('databaseModule',['modules','measures']),
-    ...mapGetters('databaseModule',['getModuleCaps']),
+    ...mapGetters('databaseModule',['getModuleCaps','getCapIcon']),
     module(){
       return this.modules.filter(module => module._id === this.id)[0]
+    },
+    types(){
+      const caps = this.getModuleCaps(this.module)
+      let types = []
+      caps.forEach(cap => {
+        const capIcon = this.getCapIcon(cap)
+        types.push({name:cap,color:capIcon.color,icon:capIcon.name})
+      })
+      return types
     }
   },
   data(){
@@ -46,7 +55,7 @@ export default {
     >
       <MeasuresChart
           :data="measures"
-          :types="getModuleCaps(module)"
+          :types="types"
       />
     </div>
   </div>

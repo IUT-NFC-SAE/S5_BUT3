@@ -11,18 +11,19 @@ export default {
   },
   methods:{
     ...mapActions('databaseModule',['getAllAnalyzes']),
-    formatDate(dateStr) {
-      const date = new Date(dateStr);
-
-      const options = {
-        day: '2-digit',
+    formatDate(dateString) {
+      let date = new Date(dateString);
+      date.setHours(date.getHours() - 2);
+      let options = {
+        day: 'numeric',
         month: 'long',
         year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: false,
+        timeZone: 'Europe/Paris'
       };
-
-      return new Intl.DateTimeFormat('fr-FR', options).format(date);
+      return date.toLocaleString('fr-FR', options);
     }
   },
   beforeMount() {

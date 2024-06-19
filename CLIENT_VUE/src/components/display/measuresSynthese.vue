@@ -23,10 +23,19 @@ export default {
   },
   computed:{
     ...mapState('databaseModule',['modules','measures']),
-    ...mapGetters('databaseModule',['getModuleCaps']),
+    ...mapGetters('databaseModule',['getModuleCaps','getCapIcon']),
     ...mapGetters('toolsModule',['getCurrentDate']),
     selectedModule(){
       return this.selectedModuleKey ? this.modules.find(module => module.key === this.selectedModuleKey) : null;
+    },
+    types(){
+      const caps = this.getModuleCaps(this.selectedModule)
+      let types = []
+      caps.forEach(cap => {
+        const capIcon = this.getCapIcon(cap)
+        types.push({name:cap,color:capIcon.color,icon:capIcon.name})
+      })
+      return types
     }
   },
   methods:{
@@ -97,7 +106,7 @@ export default {
       <br/>
 
       <div class="container bg-surface">
-        <h2 class="bg-primary">Données météorologiques</h2>
+        <h2 class="text-primary">Données météorologiques</h2>
         <v-select
             v-model="selectedModuleKey"
             :items="modules"
@@ -109,7 +118,7 @@ export default {
         <div v-if="selectedModuleKey && !loadSelectedModuleMeasure">
           <MeasuresChart
               :data="measures"
-              :types="getModuleCaps(selectedModule)"
+              :types="types"
           />
         </div>
       </div>

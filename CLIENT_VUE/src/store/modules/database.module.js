@@ -79,7 +79,8 @@ export default {
                 const lastValue = state.measures[state.measures.length - 1]
                 if(lastValue) meanValue += parseInt(lastValue.value)
             }
-            return meanValue / keys.length
+            const value = meanValue / keys.length
+            return parseFloat(value.toFixed(1))
         }
     }
 }
